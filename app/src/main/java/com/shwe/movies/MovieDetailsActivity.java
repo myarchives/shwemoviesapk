@@ -241,6 +241,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements RateDialo
                             if (objJson.has(Constant.STATUS)) {
                                 lyt_not_found.setVisibility(View.VISIBLE);
                             } else {
+                                Log.d("hd_link",objJson.getString("hd_link"));
+                                Log.d("sd_link",objJson.getString("sd_link"));
+                                String link_test = "hd_link"+objJson.getString("hd_link")+"\n"+"sd_link"+objJson.getString("sd_link");
+                                Toast.makeText(getApplication(),link_test,Toast.LENGTH_LONG).show();
                                 itemMovie.setId(objJson.getString(Constant.MOVIE_ID));
                                 itemMovie.setMovieTitle(objJson.getString(Constant.MOVIE_TITLE));
                                 itemMovie.setMovieDesc(objJson.getString(Constant.MOVIE_DESC));
