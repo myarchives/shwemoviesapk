@@ -73,7 +73,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MovieDetailsActivity extends AppCompatActivity implements RateDialog.RateDialogListener {
+public class MovieDetailsActivity extends BaseActivity implements RateDialog.RateDialogListener {
     ProgressBar mProgressBar;
     LinearLayout lyt_not_found;
     RelativeLayout lytParent;
@@ -256,7 +256,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements RateDialo
                                 itemMovie.setMovieSDLink(objJson.getString(Constant.MOVIE_SDLINK));
                                 itemMovie.setMovieType(objJson.getString(Constant.MOVIE_TYPE));
                                 itemMovie.setTotalViews(objJson.getString(Constant.MOVIE_TOTAL_VIEW));
-                                Log.d("itemmovie",itemMovie.toString());
 
                                 JSONArray jsonArrayChild = objJson.getJSONArray(Constant.RELATED_ITEM_ARRAY_NAME);
                                 if (jsonArrayChild.length() != 0) {

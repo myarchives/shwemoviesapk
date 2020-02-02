@@ -1,6 +1,7 @@
 package com.shwe.fragment;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -11,9 +12,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.android.exoplayer2.util.Log;
 import com.shwe.movies.R;
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +44,7 @@ public class FavouriteTabFragment extends Fragment {
 
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+
         return rootView;
     }
 

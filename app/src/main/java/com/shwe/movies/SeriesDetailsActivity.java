@@ -77,7 +77,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SeriesDetailsActivity extends AppCompatActivity implements RateDialog.RateDialogListener {
+public class SeriesDetailsActivity extends BaseActivity implements RateDialog.RateDialogListener {
     ProgressBar mProgressBar, mProgressBarEpisode;
     LinearLayout lyt_not_found;
     NestedScrollView nestedScrollView;

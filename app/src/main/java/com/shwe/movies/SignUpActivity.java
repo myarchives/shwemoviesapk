@@ -37,7 +37,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SignUpActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class SignUpActivity extends BaseActivity implements Validator.ValidationListener {
     @NotEmpty
     EditText edtFullName;
     @Email

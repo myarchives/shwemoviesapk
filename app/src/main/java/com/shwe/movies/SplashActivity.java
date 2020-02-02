@@ -25,7 +25,7 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     MyApplication myApplication;
     private boolean mIsBackButtonPressed;

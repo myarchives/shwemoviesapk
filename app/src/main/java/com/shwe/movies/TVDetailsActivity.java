@@ -73,7 +73,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class TVDetailsActivity extends AppCompatActivity implements RateDialog.RateDialogListener {
+public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDialogListener {
     ProgressBar mProgressBar;
     LinearLayout lyt_not_found;
     NestedScrollView nestedScrollView;

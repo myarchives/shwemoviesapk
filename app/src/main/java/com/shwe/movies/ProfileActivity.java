@@ -37,7 +37,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ProfileActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class ProfileActivity extends BaseActivity implements Validator.ValidationListener {
 
     ProgressBar mProgressBar;
     LinearLayout lyt_not_found;

@@ -25,7 +25,9 @@
         <activity
             android:name="com.shwe.movies.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+
+        </activity>
 
         <activity
             android:name="com.shwe.movies.IntroActivity"

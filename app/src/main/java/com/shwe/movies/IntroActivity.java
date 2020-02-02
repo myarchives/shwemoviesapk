@@ -18,7 +18,7 @@ import com.shwe.util.IsRTL;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends BaseActivity {
 
     View circle1, circle2, circle3;
     ViewPager pager;

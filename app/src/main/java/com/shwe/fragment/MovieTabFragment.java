@@ -1,6 +1,5 @@
 package com.shwe.fragment;
 
-
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -11,9 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.shwe.movies.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +28,7 @@ public class MovieTabFragment extends Fragment {
         tabLayout = rootView.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             View tab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(i);
             ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) tab.getLayoutParams();
@@ -42,6 +40,7 @@ public class MovieTabFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         return rootView;
     }
+
 
     private void setupViewPager(final ViewPager viewPager) {
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());

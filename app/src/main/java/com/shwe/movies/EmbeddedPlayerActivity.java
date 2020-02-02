@@ -12,7 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-public class EmbeddedPlayerActivity extends AppCompatActivity {
+public class EmbeddedPlayerActivity extends BaseActivity {
 
     WebView webView;
     String streamUrl;

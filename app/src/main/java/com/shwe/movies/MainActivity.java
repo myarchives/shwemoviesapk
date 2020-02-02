@@ -35,10 +35,11 @@ import com.shwe.util.BannerAds;
 import com.shwe.util.Constant;
 import com.shwe.util.IsRTL;
 import com.ixidev.gdpr.GDPRChecker;
+import com.shwe.util.LocaleManager;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -46,11 +47,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     boolean doubleBackToExitPressedOnce = false;
     MyApplication myApplication;
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,11 +204,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.lan_change){
+            String cur_lang = LocaleManager.getLocale(getResources()).toString();
+            if (cur_lang.equals("my")){
+                setNewLocale(this, LocaleManager.ENGLISH);
+            }
+            else
+                setNewLocale(this, LocaleManager.MYANMAR);
+
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setNewLocale(BaseActivity mContext, @LocaleManager.LocaleDef String language) {
+        LocaleManager.setNewLocale(this, language);
+        Intent intent = mContext.getIntent();
+        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
         final MenuItem searchMenuItem = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+
+        String cur_lang = LocaleManager.getLocale(getResources()).toString();
+        if (cur_lang.equals("en"))
+        {
+            int drawableResourceId = getResources().getIdentifier("my", "drawable", getPackageName());
+            menu.findItem(R.id.lan_change).setIcon(drawableResourceId);
+        }
+        else{
+            int drawableResourceId = getResources().getIdentifier("en", "drawable", getPackageName());
+            menu.findItem(R.id.lan_change).setIcon(drawableResourceId);
+        }
 
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
 
