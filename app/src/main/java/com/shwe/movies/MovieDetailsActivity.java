@@ -241,10 +241,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements RateDialo
                             if (objJson.has(Constant.STATUS)) {
                                 lyt_not_found.setVisibility(View.VISIBLE);
                             } else {
-                                Log.d("hd_link",objJson.getString("hd_link"));
-                                Log.d("sd_link",objJson.getString("sd_link"));
-                                String link_test = "hd_link"+objJson.getString("hd_link")+"\n"+"sd_link"+objJson.getString("sd_link");
-                                Toast.makeText(getApplication(),link_test,Toast.LENGTH_LONG).show();
+
                                 itemMovie.setId(objJson.getString(Constant.MOVIE_ID));
                                 itemMovie.setMovieTitle(objJson.getString(Constant.MOVIE_TITLE));
                                 itemMovie.setMovieDesc(objJson.getString(Constant.MOVIE_DESC));
@@ -255,8 +252,11 @@ public class MovieDetailsActivity extends AppCompatActivity implements RateDialo
                                 itemMovie.setLanguageId(objJson.getString(Constant.MOVIE_LANGUAGE_ID));
                                 itemMovie.setRateAvg(objJson.getString(Constant.MOVIE_RATE));
                                 itemMovie.setMovieUrl(objJson.getString(Constant.MOVIE_URL));
+                                itemMovie.setMovieHDLink(objJson.getString(Constant.MOVIE_HDLINK));
+                                itemMovie.setMovieSDLink(objJson.getString(Constant.MOVIE_SDLINK));
                                 itemMovie.setMovieType(objJson.getString(Constant.MOVIE_TYPE));
                                 itemMovie.setTotalViews(objJson.getString(Constant.MOVIE_TOTAL_VIEW));
+                                Log.d("itemmovie",itemMovie.toString());
 
                                 JSONArray jsonArrayChild = objJson.getJSONArray(Constant.RELATED_ITEM_ARRAY_NAME);
                                 if (jsonArrayChild.length() != 0) {

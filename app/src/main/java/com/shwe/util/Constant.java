@@ -35,6 +35,8 @@ public class Constant implements Serializable {
 
     public static final String MOVIE_ID = "id";
     public static final String MOVIE_TITLE = "movie_title";
+    public static final String MOVIE_HDLINK = "hd_link";
+    public static final String MOVIE_SDLINK = "sd_link";
     public static final String MOVIE_DESC = "movie_desc";
     public static final String MOVIE_POSTER = "movie_poster";
     public static final String MOVIE_COVER = "movie_cover";
@@ -96,6 +98,8 @@ public class Constant implements Serializable {
     public static final String SEASON_NAME = "season_name";
 
     public static final String EPISODE_ID = "id";
+    public static final String EPISODE_HDLINK = "hd_link";
+    public static final String EPISODE_SDLINK = "sd_link";
     public static final String EPISODE_TITLE = "episode_title";
     public static final String EPISODE_TYPE = "episode_type";
     public static final String EPISODE_URL = "episode_url";

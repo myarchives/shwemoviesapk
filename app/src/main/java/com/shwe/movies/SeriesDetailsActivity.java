@@ -546,6 +546,8 @@ public class SeriesDetailsActivity extends AppCompatActivity implements RateDial
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject objJson = jsonArray.getJSONObject(i);
                             ItemEpisode itemEpisode = new ItemEpisode();
+                            itemEpisode.setEpisodeHDLink(objJson.getString(Constant.EPISODE_HDLINK));
+                            itemEpisode.setGetEpisodeSDLink(objJson.getString(Constant.EPISODE_SDLINK));
                             itemEpisode.setId(objJson.getString(Constant.EPISODE_ID));
                             itemEpisode.setEpisodeTitle(objJson.getString(Constant.EPISODE_TITLE));
                             itemEpisode.setEpisodePoster(objJson.getString(Constant.EPISODE_POSTER));
@@ -554,6 +556,7 @@ public class SeriesDetailsActivity extends AppCompatActivity implements RateDial
                             itemEpisode.setPlaying(false);
                             mListItemEpisode.add(itemEpisode);
                         }
+                        Log.d("mListItemEpisode",mListItemEpisode.toString());
                         displayEpisode();
 
                     } else {
