@@ -149,10 +149,23 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
                                 <Button
+                                    android:onClick="SDPlay"
                                     android:text="SD Play"
                                     android:id="@+id/sd_play"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"/>
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:onClick="HDDownload"
+                                    android:text="HD Down" />
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:onClick="SDDownload"
+                                    android:text="SD Down" />
                             </LinearLayout>
 
                             <LinearLayout

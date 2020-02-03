@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.shwe.movies.MyApplication"
@@ -86,6 +88,9 @@
         <activity
             android:name="com.shwe.movies.RelatedAllMovieActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.shwe.movies.SimpleVideoPlayer"
+            android:screenOrientation="landscape" />
 
         <activity
             android:name="com.shwe.movies.RelatedAllChannelActivity"
