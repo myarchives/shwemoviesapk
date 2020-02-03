@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shwe.fragment.CategoryFragment;
+import com.shwe.fragment.ChannelFragment;
 import com.shwe.fragment.FavouriteTabFragment;
 import com.shwe.fragment.HomeFragment;
 import com.shwe.fragment.MovieTabFragment;
@@ -95,8 +96,13 @@ public class MainActivity extends AppCompatActivity {
                         loadFrag(seriesFragment, getString(R.string.menu_tv_series), fragmentManager);
                         return true;
                     case R.id.menu_go_tv_channel:
-                        CategoryFragment categoryFragment = new CategoryFragment();
-                        loadFrag(categoryFragment, getString(R.string.menu_tv_channel), fragmentManager);
+/*                        CategoryFragment categoryFragment = new CategoryFragment();
+                        loadFrag(categoryFragment, getString(R.string.menu_tv_channel), fragmentManager);*/
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Id", "3");
+                        ChannelFragment channelFragment = new ChannelFragment();
+                        channelFragment.setArguments(bundle);
+                        loadFrag(channelFragment, getString(R.string.menu_tv_channel), fragmentManager);
                         return true;
                     case R.id.menu_go_favourite:
                         FavouriteTabFragment favouriteTabFragment = new FavouriteTabFragment();
