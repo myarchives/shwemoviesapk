@@ -814,4 +814,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         }
     }
 
+    public void HDPlay(View view) {
+
+    }
 }
