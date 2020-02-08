@@ -1,6 +1,7 @@
 package com.shwe.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shwe.item.ItemSeason;
+import com.shwe.movies.EpiscodeList;
 import com.shwe.movies.R;
 import com.shwe.util.RvOnClickListener;
 
@@ -20,12 +22,12 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ItemRowHol
     private ArrayList<ItemSeason> dataList;
     private Context mContext;
     private RvOnClickListener clickListener;
-    private int selectSeason;
+    private String series_id;
 
-    public SeasonAdapter(Context context, ArrayList<ItemSeason> dataList, int position) {
+    public SeasonAdapter(Context context, ArrayList<ItemSeason> dataList, String series_id) {
         this.dataList = dataList;
         this.mContext = context;
-        this.selectSeason = position;
+        this.series_id = series_id;
     }
 
     @NonNull
@@ -39,17 +41,14 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ItemRowHol
     public void onBindViewHolder(@NonNull final ItemRowHolder holder, final int position) {
         final ItemSeason singleItem = dataList.get(position);
         holder.text.setText(singleItem.getSeasonName());
-
-        if (selectSeason == position) {
-            holder.lytSeason.setBackgroundColor(mContext.getResources().getColor(R.color.yellow));
-        } else {
-            holder.lytSeason.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
-        }
-
         holder.lytSeason.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                clickListener.onItemClick(holder.getAdapterPosition());
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), EpiscodeList.class);
+                intent.putExtra("SEASON_ID", singleItem.getSeasonId());
+                intent.putExtra("LABEL", singleItem.getSeasonName());
+                intent.putExtra("SERIES_ID", series_id);
+                view.getContext().startActivity(intent);
             }
         });
     }
@@ -59,9 +58,6 @@ public class SeasonAdapter extends RecyclerView.Adapter<SeasonAdapter.ItemRowHol
         return (null != dataList ? dataList.size() : 0);
     }
 
-    public void setOnItemClickListener(RvOnClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
 
     class ItemRowHolder extends RecyclerView.ViewHolder {
         TextView text;

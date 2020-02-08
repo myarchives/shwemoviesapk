@@ -39,6 +39,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ItemRowH
     public void onBindViewHolder(@NonNull final ItemRowHolder holder, final int position) {
         final ItemEpisode singleItem = dataList.get(position);
 
+
         holder.text.setText(singleItem.getEpisodeTitle());
         Picasso.get().load(singleItem.getEpisodePoster()).placeholder(R.drawable.place_holder_channel).into(holder.image);
 

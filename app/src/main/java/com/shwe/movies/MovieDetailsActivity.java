@@ -27,7 +27,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.EditText;
@@ -61,8 +60,6 @@ import com.shwe.dialog.ChooseDialog;
 import com.shwe.dialog.DialogUtil;
 import com.shwe.dialog.RateDialog;
 import com.shwe.fragment.ChromecastScreenFragment;
-import com.shwe.fragment.EmbeddedImageFragment;
-import com.shwe.fragment.ExoPlayerFragment;
 import com.shwe.fragment.ReportFragment;
 import com.shwe.item.ItemComment;
 import com.shwe.item.ItemMovie;
@@ -1029,7 +1026,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
     public void HDPlay(View view) {
        // letPlay(itemMovie.getMovieHDLink());
-        ChooseDialog chooseDialog=new ChooseDialog(view.getContext(),this,true,itemMovie.getMovieHDLink(),itemMovie.getMovieSDLink(),itemMovie);
+        ChooseDialog chooseDialog = new ChooseDialog(view.getContext(), this, true, itemMovie);
         chooseDialog.show();
     }
 
@@ -1042,7 +1039,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     }
 
     public void HDDownload(View view) {
-        ChooseDialog chooseDialog=new ChooseDialog(view.getContext(),this,false,itemMovie.getMovieHDLink(),itemMovie.getMovieSDLink(),itemMovie);
+        ChooseDialog chooseDialog = new ChooseDialog(view.getContext(), this, false, itemMovie);
         chooseDialog.show();
     }
 }

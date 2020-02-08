@@ -54,6 +54,7 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
+
     <RelativeLayout
         android:id="@+id/lytParent"
         android:layout_width="match_parent"
@@ -62,20 +63,18 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/toolbar_main">
 
-
-        <FrameLayout
-            android:id="@+id/playerSection"
+        <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bg"
-            android:orientation="vertical" />
+            android:id="@+id/image_cv"
+            android:layout_height="200dp" />
 
 
         <android.support.v4.widget.NestedScrollView
+
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/playerSection">
+            android:layout_below="@+id/image_cv">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,41 +204,7 @@
 
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:id="@+id/lytSeason"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:background="@drawable/yellow_btn"
-                                android:orientation="horizontal"
-                                android:paddingBottom="5dp"
-                                android:paddingEnd="12dp"
-                                android:paddingStart="12dp"
-                                android:paddingTop="5dp">
 
-                                <TextView
-                                    android:id="@+id/textSeasonDrop"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/report_here"
-                                    android:textColor="@color/white"
-                                    android:textSize="14sp" />
-
-                                <View
-                                    android:layout_width="1dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginEnd="5dp"
-                                    android:layout_marginStart="7dp"
-                                    android:background="@drawable/line_season" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/triangle_down"
-                                    android:textColor="@color/white"
-                                    android:textSize="14sp" />
-
-                            </LinearLayout>
 
 
                         </LinearLayout>
@@ -247,7 +212,13 @@
 
                     </android.support.v7.widget.CardView>
 
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/season_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/lytEpisode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -281,6 +252,7 @@
 
 
                         <RelativeLayout
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"

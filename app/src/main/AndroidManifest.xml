@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".EpiscodeList"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,12 +54,10 @@
         <activity
             android:name=".RelatedAllMovieActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.SimpleVideoPlayer"
+            android:name=".SimpleVideoPlayer"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="landscape" />
-
         <activity
             android:name=".RelatedAllChannelActivity"
             android:screenOrientation="portrait" />
@@ -107,6 +106,6 @@
         <activity
             android:name="com.shwe.cast.ExpandedControlsActivity"
             android:theme="@style/Theme.CastVideosDark" />
+    </application>
 
-</application>
 </manifest>

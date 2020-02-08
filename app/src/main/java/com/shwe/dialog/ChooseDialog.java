@@ -12,12 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.BoringLayout;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,37 +20,20 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
-import com.github.ornolfr.ratingview.RatingView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.htetznaing.xgetter.Model.XModel;
 import com.htetznaing.xgetter.XGetter;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.shwe.item.ItemMovie;
-import com.shwe.movies.MovieDetailsActivity;
-import com.shwe.movies.MyApplication;
 import com.shwe.movies.R;
 import com.shwe.movies.SimpleVideoPlayer;
-import com.shwe.util.API;
-import com.shwe.util.Constant;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.XDownloader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
-
 public class ChooseDialog extends BaseDialog {
     TextView title,btn_hd,btn_sd;
     Boolean condition;//true for play and false for download
-    String hd_url,sd_url;
 
 
     XGetter xGetter, xGetterDownload;
@@ -67,11 +45,9 @@ public class ChooseDialog extends BaseDialog {
     ItemMovie itemMovie;
 
 
-    public ChooseDialog(Context context,Activity activity,Boolean condition,String hd_url,String sd_url,ItemMovie itemMovie) {
+    public ChooseDialog(Context context, Activity activity, Boolean condition, ItemMovie itemMovie) {
         super(context);
         this.condition=condition;
-        this.hd_url=hd_url;
-        this.sd_url=sd_url;
         this.context=context;
         this.activity=activity;
         this.itemMovie=itemMovie;
@@ -170,14 +146,14 @@ public class ChooseDialog extends BaseDialog {
             btn_hd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    letPlay(hd_url);
+                    letPlay(itemMovie.getMovieHDLink());
                     dismiss();
                 }
             });
             btn_sd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    letPlay(sd_url);
+                    letPlay(itemMovie.getMovieSDLink());
                     dismiss();
                 }
             });
@@ -188,14 +164,14 @@ public class ChooseDialog extends BaseDialog {
             btn_hd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    letDownload(hd_url);
+                    letDownload(itemMovie.getMovieHDLink());
                     dismiss();
                 }
             });
             btn_sd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    letDownload(sd_url);
+                    letDownload(itemMovie.getMovieSDLink());
                     dismiss();
                 }
             });

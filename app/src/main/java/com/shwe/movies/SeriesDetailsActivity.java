@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,11 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,6 +29,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
+import com.github.ornolfr.ratingview.RatingView;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.shwe.adapter.CommentAdapter;
 import com.shwe.adapter.EpisodeAdapter;
 import com.shwe.adapter.HomeSeriesAdapter;
@@ -57,15 +63,7 @@ import com.shwe.util.GlobalBus;
 import com.shwe.util.IsRTL;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.RvOnClickListener;
-import com.github.ornolfr.ratingview.RatingView;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
@@ -84,7 +82,7 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
     RelativeLayout lytParent;
     WebView webView;
     RatingView ratingView;
-    TextView textTitle, textCategory, textRate, textReport, textRelViewAll, textComViewAll, textNoComment, textSeason, textNoEpisode, textSeasonDrop, textCount;
+    TextView textTitle, textCategory, textRate, textReport, textRelViewAll, textComViewAll, textNoComment, textSeason, textNoEpisode, textCount;
     ImageView imageEditRate, imageFav;
     RecyclerView rvRelated, rvComment, rvEpisode;
     ItemSeries itemSeries;
@@ -96,7 +94,7 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
     CommentAdapter commentAdapter;
     EpisodeAdapter episodeAdapter;
     String Id;
-    LinearLayout lytRelated, lytEpisode, lytSeason;
+    LinearLayout lytRelated, lytEpisode;
     EditText editTextComment;
 
     ProgressDialog pDialog;
@@ -107,7 +105,6 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
     private FragmentManager fragmentManager;
     Toolbar toolbar;
     private int playerHeight;
-    FrameLayout frameLayout;
     boolean isFullScreen = false;
     boolean isPlayerIsYt = false;
     private YouTubePlayer youTubePlayer;
@@ -115,7 +112,8 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
     boolean isFromNotification = false;
     LinearLayout mAdViewLayout;
     private Casty casty;
-
+    RecyclerView season_rv;
+    ImageView image_cv;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -162,7 +160,6 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
 
         lytRelated = findViewById(R.id.lytRelated);
         lytEpisode = findViewById(R.id.lytEpisode);
-        lytSeason = findViewById(R.id.lytSeason);
         mProgressBar = findViewById(R.id.progressBar1);
         mProgressBarEpisode = findViewById(R.id.progressBar);
         lyt_not_found = findViewById(R.id.lyt_not_found);
@@ -181,15 +178,10 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
         textNoComment = findViewById(R.id.textView_noComment_md);
         textSeason = findViewById(R.id.textSeason);
         textNoEpisode = findViewById(R.id.textNoEpisode);
-        textSeasonDrop = findViewById(R.id.textSeasonDrop);
         textCount = findViewById(R.id.textViews);
-
-        frameLayout = findViewById(R.id.playerSection);
-        frameLayout = findViewById(R.id.playerSection);
+        image_cv = findViewById(R.id.image_cv);
         int columnWidth = NetworkUtils.getScreenWidth(this);
-        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(columnWidth, columnWidth / 2));
-        playerHeight = frameLayout.getLayoutParams().height;
-
+        season_rv = findViewById(R.id.season_rv);
         editTextComment.setClickable(true);
         editTextComment.setFocusable(false);
         textTitle.setSelected(true);
@@ -331,7 +323,11 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
         textRate.setText(itemSeries.getRateAvg());
         ratingView.setRating(Float.parseFloat(itemSeries.getRateAvg()));
         textCount.setText(getString(R.string.count, NetworkUtils.viewFormat(Integer.parseInt(itemSeries.getTotalViews()))));
-        
+        SeasonAdapter seasonAdapter = new SeasonAdapter(getApplicationContext(), mListItemSeason, itemSeries.getId());
+        season_rv.setAdapter(seasonAdapter);
+        season_rv.setLayoutManager(new LinearLayoutManager(this));
+        Picasso.get().load(itemSeries.getSeriesCover()).placeholder(R.drawable.place_holder_slider).into(image_cv);
+
         String mimeType = "text/html";
         String encoding = "utf-8";
         String htmlText = itemSeries.getSeriesDesc();
@@ -348,15 +344,7 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
 
         webView.loadDataWithBaseURL(null, text, mimeType, encoding, null);
 
-        if (!mListItemSeason.isEmpty()) {
-            textCategory.setText(getString(R.string.total_num_season, mListItemSeason.size()));
-            changeSeason(selectedSeason);
-        } else {
-            lytEpisode.setVisibility(View.GONE);
-            lytSeason.setVisibility(View.GONE);
-            textCategory.setVisibility(View.GONE);
-            setImageIfSeasonAndEpisodeNone(itemSeries.getSeriesCover());
-        }
+
 
         if (!mListItemRelated.isEmpty()) {
             homeSeriesAdapter = new HomeSeriesAdapter(SeriesDetailsActivity.this, mListItemRelated);
@@ -422,12 +410,7 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
             }
         });
 
-        lytSeason.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSeason(selectedSeason);
-            }
-        });
+
 
         textReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -486,7 +469,6 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
     private void changeSeason(int seasonId) {
         ItemSeason itemSeason = mListItemSeason.get(seasonId);
         textSeason.setText(itemSeason.getSeasonName());
-        textSeasonDrop.setText(itemSeason.getSeasonName());
         if (NetworkUtils.isConnected(SeriesDetailsActivity.this)) {
             getEpisode(itemSeason.getSeasonId());
         } else {
@@ -687,32 +669,7 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
         return true;
     }
 
-    private void showSeason(int position) {
-        final Dialog mDialog = new Dialog(SeriesDetailsActivity.this, R.style.Theme_AppCompat_Translucent);
-        mDialog.setContentView(R.layout.dialog_season);
-        TextView textSeriesName = mDialog.findViewById(R.id.textSeasonName);
-        RecyclerView rvSeason = mDialog.findViewById(R.id.rv_season);
-        rvSeason.setHasFixedSize(true);
-        rvSeason.setLayoutManager(new LinearLayoutManager(SeriesDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
-        rvSeason.setFocusable(false);
-        rvSeason.setNestedScrollingEnabled(false);
 
-        textSeriesName.setText(itemSeries.getSeriesName());
-        SeasonAdapter seasonAdapter = new SeasonAdapter(SeriesDetailsActivity.this, mListItemSeason, position);
-        rvSeason.setAdapter(seasonAdapter);
-
-        seasonAdapter.setOnItemClickListener(new RvOnClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                selectedSeason = position;
-                mDialog.dismiss();
-                mListItemEpisode.clear();
-                selectedEpisode = 0;
-                changeSeason(selectedSeason);
-            }
-        });
-        mDialog.show();
-    }
 
     private void showCommentBox() {
         final Dialog mDialog = new Dialog(SeriesDetailsActivity.this, R.style.Theme_AppCompat_Translucent);
@@ -852,14 +809,12 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
         mAdViewLayout.setVisibility(View.VISIBLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, playerHeight));
     }
 
     private void gotoFullScreen() {
         nestedScrollView.setVisibility(View.GONE);
         toolbar.setVisibility(View.GONE);
         mAdViewLayout.setVisibility(View.GONE);
-        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }

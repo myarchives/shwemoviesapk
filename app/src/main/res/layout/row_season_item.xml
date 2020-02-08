@@ -6,8 +6,11 @@
     android:orientation="vertical">
 
     <TextView
+        android:layout_width="match_parent"
+        android:background="@drawable/forbtn"
+        android:gravity="center"
         android:id="@+id/textSeasonName"
-        android:layout_width="wrap_content"
+        android:padding="5dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/app_name"
