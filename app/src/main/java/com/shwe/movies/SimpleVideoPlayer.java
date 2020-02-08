@@ -198,10 +198,8 @@ public class SimpleVideoPlayer extends AppCompatActivity {
 
 
         ImageButton download = findViewById(R.id.download);
-        if (!url.startsWith("http")){
-            download.setVisibility(View.GONE);
-            download.setEnabled(false);
-        }
+        download.setVisibility(View.GONE);
+        download.setEnabled(false);
         download.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

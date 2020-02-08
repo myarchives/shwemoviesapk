@@ -31,6 +31,10 @@
     <string name="send">Send</string>
     <string name="update">Update</string>
 
+
+    <!--Downlaod Folder and Video File -->
+    <string name="save_folder_name">shwemovies</string>
+
     <!--Navigation drawer -->
     <string name="menu_home">Home</string>
     <string name="menu_movie">Movies</string>
@@ -42,6 +46,7 @@
     <string name="menu_log_out">Logout</string>
     <string name="menu_log_in">Login</string>
     <string name="menu_recent">Recently Viewed</string>
+    <string name="menu_download_manager">Download</string>
 
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
@@ -140,4 +145,8 @@
     <string name="license_msg">You are using invalid License or Package name is already in use, for more information contact us: info@viaviweb.com or viaviwebtech@gmail.com</string>
     <string name="something_went">Something went wrong please restart application</string>
     <string name="user_disable">Admin was disable or deleted you as user</string>
+    <string name="delete">Delete</string>
+    <string name="hd_play">HD Play</string>
+    <string name="sd_play">SD Play</string>
+    <string name="choose_one">Choose One</string>
 </resources>

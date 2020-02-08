@@ -39,8 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
@@ -127,7 +125,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     XGetter xGetter, xGetterDownload;
     ProgressDialog progressDialog;
     String org;
-    EditText edit_query;
     XDownloader xDownloader;
     XModel current_Xmodel = null;
 
@@ -364,19 +361,9 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                 .setIcon(R.drawable.right)
                 .withDialogAnimation(true)
                 .setPositiveText("Built in downloader")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        downloadFile(xModel);
-                    }
-                })
+                .onPositive((dialog, which) -> downloadFile(xModel))
                 .setNegativeText("ADM")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        downloadWithADM(xModel);
-                    }
-                });
+                .onNegative((dialog, which) -> downloadWithADM(xModel));
         MaterialStyledDialog dialog = builder.build();
         dialog.show();
     }
