@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.shwe.movies.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,115 +16,96 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.shwe.movies.SplashActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.shwe.movies.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-
-        </activity>
-
-        <activity
-            android:name="com.shwe.movies.IntroActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
-        <activity
-            android:name="com.shwe.movies.SignInActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+
 
         <activity
-            android:name="com.shwe.movies.SignUpActivity"
+            android:name=".IntroActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="com.shwe.movies.ProfileActivity"
+            android:name=".SignInActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
-            android:name="com.shwe.movies.ForgotPasswordActivity"
+            android:name=".ForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="com.shwe.movies.MovieDetailsActivity"
+            android:name=".MovieDetailsActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="com.shwe.movies.SeriesDetailsActivity"
+            android:name=".SeriesDetailsActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
-            android:name="com.shwe.movies.TVDetailsActivity"
+            android:name=".TVDetailsActivity"
             android:configChanges="orientation|screenLayout|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-
-
         <activity
-            android:name="com.shwe.movies.EmbeddedPlayerActivity"
+            android:name=".EmbeddedPlayerActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="sensor" />
-
         <activity
-            android:name="com.shwe.movies.AllCommentActivity"
+            android:name=".AllCommentActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
-            android:name="com.shwe.movies.RelatedAllMovieActivity"
+            android:name=".RelatedAllMovieActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="com.shwe.movies.SimpleVideoPlayer"
             android:screenOrientation="landscape" />
 
         <activity
-            android:name="com.shwe.movies.RelatedAllChannelActivity"
+            android:name=".RelatedAllChannelActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.RelatedAllSeriesActivity"
+            android:name=".RelatedAllSeriesActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.SearchActivity"
+            android:name=".SearchActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.SearchHorizontalActivity"
+            android:name=".SearchHorizontalActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.SearchAllMovieActivity"
+            android:name=".SearchAllMovieActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.SearchAllChannelActivity"
+            android:name=".SearchAllChannelActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.shwe.movies.SearchAllSeriesActivity"
+            android:name=".SearchAllSeriesActivity"
             android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <!-- Activity required to show ad overlays. -->
+            android:value="@integer/google_play_services_version" /> <!-- Activity required to show ad overlays. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
@@ -135,15 +116,12 @@
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"
             android:value="FF1C6CC3" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
-
         <meta-data
             android:name="com.google.android.gms.cast.framework.OPTIONS_PROVIDER_CLASS_NAME"
             android:value="com.shwe.cast.CastOptionsProvider" />
@@ -152,6 +130,5 @@
             android:name="com.shwe.cast.ExpandedControlsActivity"
             android:theme="@style/Theme.CastVideosDark" />
 
-    </application>
-
+</application>
 </manifest>

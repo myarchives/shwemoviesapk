@@ -60,6 +60,7 @@ import com.shwe.adapter.HomeMovieAdapter;
 import com.shwe.cast.Casty;
 import com.shwe.cast.MediaData;
 import com.shwe.db.DatabaseHelper;
+import com.shwe.dialog.ChooseDialog;
 import com.shwe.dialog.DialogUtil;
 import com.shwe.dialog.RateDialog;
 import com.shwe.fragment.ChromecastScreenFragment;
@@ -95,7 +96,8 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     RelativeLayout lytParent;
     WebView webView;
     RatingView ratingView;
-    TextView textTitle, textCategory, textRate, textReport, textRelViewAll, textComViewAll, textNoComment, textCount;
+    LinearLayout textReport;
+    TextView textTitle, textCategory, textRate,  textRelViewAll, textComViewAll, textNoComment, textCount;
     ImageView imageEditRate, imageFav;
     RecyclerView rvRelated, rvComment;
     ItemMovie itemMovie;
@@ -706,16 +708,9 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         ratingView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myApplication.getIsLogin()) {
-                    DialogUtil.showRateDialog(MovieDetailsActivity.this, MovieDetailsActivity.this, Id, "movie");
-                } else {
-                    String message = getString(R.string.login_first, getString(R.string.login_first_rate));
-                    showToast(message);
 
-                    Intent intentLogin = new Intent(MovieDetailsActivity.this, SignInActivity.class);
-                    intentLogin.putExtra("isOtherScreen", true);
-                    startActivity(intentLogin);
-                }
+                    DialogUtil.showRateDialog(MovieDetailsActivity.this, MovieDetailsActivity.this, Id, "movie");
+
 
             }
         });
@@ -723,21 +718,12 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         textReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myApplication.getIsLogin()) {
                     Bundle bundle = new Bundle();
                     bundle.putString("postId", Id);
                     bundle.putString("postType", "movie");
                     ReportFragment reportFragment = new ReportFragment();
                     reportFragment.setArguments(bundle);
                     reportFragment.show(getSupportFragmentManager(), reportFragment.getTag());
-                } else {
-                    String message = getString(R.string.login_first, getString(R.string.login_first_report));
-                    showToast(message);
-
-                    Intent intentLogin = new Intent(MovieDetailsActivity.this, SignInActivity.class);
-                    intentLogin.putExtra("isOtherScreen", true);
-                    startActivity(intentLogin);
-                }
             }
         });
 
@@ -748,7 +734,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                 ContentValues fav = new ContentValues();
                 if (databaseHelper.getFavouriteById(Id, DatabaseHelper.TABLE_MOVIE)) {
                     databaseHelper.removeFavouriteById(Id, DatabaseHelper.TABLE_MOVIE);
-                    imageFav.setImageResource(R.drawable.ic_fav);
+                    imageFav.setImageResource(R.drawable.ic_favorite_border);
                     showToast(getString(R.string.favourite_remove));
                 } else {
                     fav.put(DatabaseHelper.MOVIE_ID, Id);
@@ -757,7 +743,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                     fav.put(DatabaseHelper.MOVIE_LANGUAGE, itemMovie.getLanguageName());
                     fav.put(DatabaseHelper.MOVIE_LANGUAGE_BACK, itemMovie.getLanguageBackground());
                     databaseHelper.addFavourite(DatabaseHelper.TABLE_MOVIE, fav, null);
-                    imageFav.setImageResource(R.drawable.ic_fav_hover);
+                    imageFav.setImageResource(R.drawable.ic_favorited);
                     showToast(getString(R.string.favourite_add));
                 }
             }
@@ -1083,9 +1069,9 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
     private void isFavourite() {
         if (databaseHelper.getFavouriteById(Id, DatabaseHelper.TABLE_MOVIE)) {
-            imageFav.setImageResource(R.drawable.ic_fav_hover);
+            imageFav.setImageResource(R.drawable.ic_favorited);
         } else {
-            imageFav.setImageResource(R.drawable.ic_fav);
+            imageFav.setImageResource(R.drawable.ic_favorite_border);
         }
     }
 
@@ -1101,7 +1087,9 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     }
 
     public void HDPlay(View view) {
-        letPlay(itemMovie.getMovieHDLink());
+       // letPlay(itemMovie.getMovieHDLink());
+        ChooseDialog chooseDialog=new ChooseDialog(view.getContext(),true);
+        chooseDialog.show();
     }
 
     public void SDPlay(View view) {

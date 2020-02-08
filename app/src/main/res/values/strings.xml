@@ -1,15 +1,6 @@
 <resources>
     <string name="app_name">Shwe Movies</string>
 
-    <!--    downloading PR manager-->
-    <string name="some_error_occurred">Some error occurred</string>
-    <string name="start">start</string>
-    <string name="completed">completed</string>
-    <string name="pause">pause</string>
-    <string name="cancel">cancel</string>
-    <string name="resume">resume</string>
-    <string name="restart">restart</string>
-
     <!--intro screen-->
     <string name="skip">Skip</string>
     <string name="next">Next</string>
@@ -40,16 +31,12 @@
     <string name="send">Send</string>
     <string name="update">Update</string>
 
-    <!--Downlaod Folder and Video File -->
-    <string name="save_folder_name">shwemovies</string>
-
     <!--Navigation drawer -->
     <string name="menu_home">Home</string>
     <string name="menu_movie">Movies</string>
     <string name="menu_tv_series">TV Series</string>
     <string name="menu_tv_channel">TV Channel</string>
     <string name="menu_favourite">Favourite</string>
-    <string name="menu_download_manager">Download</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Settings</string>
     <string name="menu_log_out">Logout</string>
@@ -153,5 +140,4 @@
     <string name="license_msg">You are using invalid License or Package name is already in use, for more information contact us: info@viaviweb.com or viaviwebtech@gmail.com</string>
     <string name="something_went">Something went wrong please restart application</string>
     <string name="user_disable">Admin was disable or deleted you as user</string>
-    <string name="delete">Delete</string>
 </resources>

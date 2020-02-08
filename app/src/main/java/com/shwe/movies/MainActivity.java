@@ -1,5 +1,6 @@
 package com.shwe.movies;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,9 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ixidev.gdpr.GDPRChecker;
 import com.shwe.fragment.CategoryFragment;
-import com.shwe.fragment.DownloadedFragment;
 import com.shwe.fragment.FavouriteTabFragment;
 import com.shwe.fragment.HomeFragment;
 import com.shwe.fragment.MovieTabFragment;
@@ -34,7 +34,10 @@ import com.shwe.fragment.SettingFragment;
 import com.shwe.util.BannerAds;
 import com.shwe.util.Constant;
 import com.shwe.util.IsRTL;
+import com.ixidev.gdpr.GDPRChecker;
 import com.shwe.util.LocaleManager;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends BaseActivity {
 
@@ -94,10 +97,6 @@ public class MainActivity extends BaseActivity {
                     case R.id.menu_go_favourite:
                         FavouriteTabFragment favouriteTabFragment = new FavouriteTabFragment();
                         loadFrag(favouriteTabFragment, getString(R.string.menu_favourite), fragmentManager);
-                        return true;
-                    case R.id.menu_go_download_manager:
-                        DownloadedFragment downloadedFragment = new DownloadedFragment();
-                        loadFrag(downloadedFragment, getString(R.string.menu_download_manager), fragmentManager);
                         return true;
                     case R.id.menu_go_profile:
                         Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
