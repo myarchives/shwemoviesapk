@@ -9,7 +9,7 @@
     <string name="about_us_company_name">ရွှေအားကစား</string>
     <string name="about_us_contact">ဆက်သွယ်ရန်</string>
     <string name="already_account">အကောင့်ရှိပြီးသားလား</string>
-    <string name="button_text_forgot_password">စကား၀ှက်မေ့နေပြီလား</string>
+    <string name="button_text_forgot_password">သင့်စကားဝှက်ကိုမေ့နေပါသလား</string>
     <string name="genre">အမျိုးအစား</string>
     <string name="home_category">တီဗီအမျိုးအစားများ</string>
     <string name="home_latest_channel">နောက်ဆုံးလိုင်း</string>
@@ -77,7 +77,7 @@
     <string name="report_message">message report</string>
     <string name="search">ရှာမည်</string>
     <string name="send">ပို့ပါ</string>
-    <string name="share_app">မျှ၀ေပါ</string>
+    <string name="share_app">မျှဝေပါ</string>
     <string name="sign_into_continue">၀င်ရန် sign in လုပ်ပါ</string>
     <string name="skip">ကျော်ပါ</string>
     <string name="something_went">တစ်ခုခုမှားသွားသည်</string>
