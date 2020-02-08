@@ -13,6 +13,24 @@ public class ItemMovie {
     private String languageBackground;
     private String movieUrl;
     private String movieType;
+    private String movieHDLink;
+    private String movieSDLink;
+
+    public String getMovieHDLink() {
+        return movieHDLink;
+    }
+
+    public void setMovieHDLink(String movieHDLink) {
+        this.movieHDLink = movieHDLink;
+    }
+
+    public String getMovieSDLink() {
+        return movieSDLink;
+    }
+
+    public void setMovieSDLink(String movieSDLink) {
+        this.movieSDLink = movieSDLink;
+    }
 
     public String getId() {
         return id;
@@ -108,5 +126,25 @@ public class ItemMovie {
 
     public void setMovieType(String movieType) {
         this.movieType = movieType;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemMovie{" +
+                "id='" + id + '\'' +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", movieDesc='" + movieDesc + '\'' +
+                ", moviePoster='" + moviePoster + '\'' +
+                ", movieCover='" + movieCover + '\'' +
+                ", totalViews='" + totalViews + '\'' +
+                ", rateAvg='" + rateAvg + '\'' +
+                ", languageId='" + languageId + '\'' +
+                ", languageName='" + languageName + '\'' +
+                ", languageBackground='" + languageBackground + '\'' +
+                ", movieUrl='" + movieUrl + '\'' +
+                ", movieType='" + movieType + '\'' +
+                ", movieHDLink='" + movieHDLink + '\'' +
+                ", movieSDLink='" + movieSDLink + '\'' +
+                '}';
     }
 }

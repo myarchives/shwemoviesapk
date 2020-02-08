@@ -37,7 +37,7 @@ import cn.refactor.library.SmoothCheckBox;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SignInActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class SignInActivity extends BaseActivity implements Validator.ValidationListener {
     @NotEmpty
     @Email
     EditText edtEmail;

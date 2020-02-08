@@ -36,7 +36,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class ForgotPasswordActivity extends AppCompatActivity implements Validator.ValidationListener {
+public class ForgotPasswordActivity extends BaseActivity implements Validator.ValidationListener {
     @NotEmpty
     @Email
     EditText edtEmail;

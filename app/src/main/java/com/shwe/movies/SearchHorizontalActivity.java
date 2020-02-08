@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SearchHorizontalActivity extends AppCompatActivity {
+public class SearchHorizontalActivity extends BaseActivity {
 
     String search;
     ProgressBar mProgressBar;

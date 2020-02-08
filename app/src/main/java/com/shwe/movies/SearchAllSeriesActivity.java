@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class SearchAllSeriesActivity extends AppCompatActivity {
+public class SearchAllSeriesActivity extends BaseActivity {
 
     ArrayList<ItemSeries> mListItem;
     public RecyclerView recyclerView;

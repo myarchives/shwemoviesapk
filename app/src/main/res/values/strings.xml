@@ -140,4 +140,7 @@
     <string name="license_msg">You are using invalid License or Package name is already in use, for more information contact us: info@viaviweb.com or viaviwebtech@gmail.com</string>
     <string name="something_went">Something went wrong please restart application</string>
     <string name="user_disable">Admin was disable or deleted you as user</string>
+    <string name="choose_one">Choose One</string>
+    <string name="hd_play">HD Play</string>
+    <string name="sd_play">SD Play</string>
 </resources>

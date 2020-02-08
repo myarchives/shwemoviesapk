@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class AllCommentActivity extends AppCompatActivity {
+public class AllCommentActivity extends BaseActivity {
 
     ProgressBar mProgressBar;
     RecyclerView rvComment;

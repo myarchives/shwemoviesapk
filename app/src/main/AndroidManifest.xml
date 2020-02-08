@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -14,7 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MovieDetail"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +27,9 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
+
+
+
         <activity
             android:name=".IntroActivity"
             android:screenOrientation="portrait"
@@ -72,6 +76,11 @@
         <activity
             android:name=".RelatedAllMovieActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.shwe.movies.SimpleVideoPlayer"
+            android:screenOrientation="landscape" />
+
         <activity
             android:name=".RelatedAllChannelActivity"
             android:screenOrientation="portrait" />
@@ -120,6 +129,6 @@
         <activity
             android:name="com.shwe.cast.ExpandedControlsActivity"
             android:theme="@style/Theme.CastVideosDark" />
-    </application>
 
+</application>
 </manifest>

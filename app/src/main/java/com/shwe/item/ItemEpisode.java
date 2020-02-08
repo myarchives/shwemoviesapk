@@ -5,9 +5,27 @@ public class ItemEpisode {
     private String id;
     private String episodeTitle;
     private String episodeUrl;
+    private String episodeHDLink;
+    private String getEpisodeSDLink;
     private String episodePoster;
     private String episodeType;
     private boolean isPlaying = false;
+
+    public String getEpisodeHDLink() {
+        return episodeHDLink;
+    }
+
+    public void setEpisodeHDLink(String episodeHDLink) {
+        this.episodeHDLink = episodeHDLink;
+    }
+
+    public String getGetEpisodeSDLink() {
+        return getEpisodeSDLink;
+    }
+
+    public void setGetEpisodeSDLink(String getEpisodeSDLink) {
+        this.getEpisodeSDLink = getEpisodeSDLink;
+    }
 
     public String getId() {
         return id;
@@ -55,5 +73,19 @@ public class ItemEpisode {
 
     public void setPlaying(boolean playing) {
         isPlaying = playing;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemEpisode{" +
+                "id='" + id + '\'' +
+                ", episodeTitle='" + episodeTitle + '\'' +
+                ", episodeUrl='" + episodeUrl + '\'' +
+                ", episodeHDLink='" + episodeHDLink + '\'' +
+                ", getEpisodeSDLink='" + getEpisodeSDLink + '\'' +
+                ", episodePoster='" + episodePoster + '\'' +
+                ", episodeType='" + episodeType + '\'' +
+                ", isPlaying=" + isPlaying +
+                '}';
     }
 }

@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class RelatedAllMovieActivity extends AppCompatActivity {
+public class RelatedAllMovieActivity extends BaseActivity {
 
     ArrayList<ItemMovie> mListItem;
     public RecyclerView recyclerView;

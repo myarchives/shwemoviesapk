@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.shwe.adapter.MovieAdapter;
 import com.shwe.item.ItemMovie;
-import com.shwe.movies.MovieDetail;
 import com.shwe.movies.MovieDetailsActivity;
 import com.shwe.movies.R;
 import com.shwe.util.API;
@@ -195,7 +194,7 @@ public class MovieFragment extends Fragment {
                 @Override
                 public void onItemClick(int position) {
                     String movieId = mListItem.get(position).getId();
-                    Intent intent = new Intent(getActivity(), MovieDetail.class);
+                    Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
                     intent.putExtra("Id", movieId);
                     startActivity(intent);
                 }

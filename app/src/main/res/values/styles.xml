@@ -6,12 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="BrandedSwitch.control" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlActivated">@color/yellow</item>
         <item name="colorSwitchThumbNormal">@color/white</item>
         <item name="android:colorForeground">@color/white</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.NoActionBar">
@@ -21,11 +23,13 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <!--<item name="android:windowIsTranslucent">true</item>-->
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="tabText" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="Theme.CastVideosDark" parent="Theme.AppCompat.NoActionBar">
@@ -36,6 +40,7 @@
         <item name="castExpandedControllerToolbarStyle">
             @style/ThemeOverlay.AppCompat.Dark.ActionBar
         </item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="CustomCastIntroOverlay" parent="CastIntroOverlay">
@@ -43,20 +48,24 @@
         </item>
         <item name="castTitleTextAppearance">@style/TextAppearance.CustomCastIntroOverlay.Title
         </item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="TextAppearance.CustomCastIntroOverlay.Button" parent="android:style/TextAppearance">
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="TextAppearance.CustomCastIntroOverlay.Title" parent="android:style/TextAppearance.Large">
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="CustomCastMiniController" parent="CastMiniController">
         <item name="castShowImageThumbnail">true</item>
         <item name="castTitleTextAppearance">@style/TextAppearance.AppCompat.Subhead</item>
         <item name="castSubtitleTextAppearance">@style/TextAppearance.AppCompat.Caption</item>
+        <item name="android:fontFamily">@font/custom</item>
     </style>
 
     <style name="CustomCastExpandedController" parent="CastExpandedController" />
