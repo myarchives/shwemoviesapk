@@ -145,7 +145,7 @@
     <string name="sd_play">SD Play</string>
     <string name="delete">delete</string>
     <string name="menu_download_manager">Download</string>
-    <string name="save_folder_name">Save Folder</string>
+    <string name="save_folder_name">shwemovies</string>
     <string name="hd_download">HD Download</string>
     <string name="sd_download">SD Download</string>
 </resources>
