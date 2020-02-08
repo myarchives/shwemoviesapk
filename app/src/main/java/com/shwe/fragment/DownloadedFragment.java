@@ -1,6 +1,8 @@
 package com.shwe.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.shwe.adapter.DownVideoAdapter;
 import com.shwe.item.ItemDown;
@@ -23,6 +28,7 @@ import com.shwe.movies.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DownloadedFragment extends Fragment {
@@ -39,14 +45,17 @@ public class DownloadedFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.row_recyclerview_download, container, false);
-        mListItem = new ArrayList<>();
-        lyt_not_found = rootView.findViewById(R.id.lyt_not_found);
-        progressBar = rootView.findViewById(R.id.progressBar);
-        recyclerView = rootView.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        new getAllDown().execute();
+        if (checkPermissions()) {
+            mListItem = new ArrayList<>();
+            lyt_not_found = rootView.findViewById(R.id.lyt_not_found);
+            progressBar = rootView.findViewById(R.id.progressBar);
+            recyclerView = rootView.findViewById(R.id.recyclerView);
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            new getAllDown().execute();
+        }
+
         return rootView;
     }
 
@@ -126,5 +135,34 @@ public class DownloadedFragment extends Fragment {
             displayData();
         }
     }
+
+    private boolean checkPermissions() {
+        int storage = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        final List<String> listPermissionsNeeded = new ArrayList<>();
+        if (storage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+
+            ActivityCompat.requestPermissions(getActivity(), listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1000);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1000) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                checkPermissions();
+                Toast.makeText(getContext(), "You need to allow this permission!", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+    }
+
 }
 
