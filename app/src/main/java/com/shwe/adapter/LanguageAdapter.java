@@ -88,7 +88,7 @@ public class LanguageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ItemRowHolder(View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.text);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.click_play);
         }
     }
 

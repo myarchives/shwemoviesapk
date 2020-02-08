@@ -91,7 +91,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(itemView);
             image = itemView.findViewById(R.id.image);
             text = itemView.findViewById(R.id.text);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.click_play);
         }
     }
 

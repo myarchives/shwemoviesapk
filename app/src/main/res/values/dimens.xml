@@ -7,5 +7,6 @@
     <dimen name="item_offset">2dp</dimen>
     <dimen name="btnRadius">25dp</dimen>
     <dimen name="item_space">8dp</dimen>
+    <dimen name="download_item_space">1dp</dimen>
     <dimen name="shadow_size">80dp</dimen>
 </resources>

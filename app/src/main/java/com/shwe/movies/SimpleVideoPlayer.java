@@ -31,6 +31,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.htetznaing.xgetter.Model.XModel;
+import com.shwe.item.ItemMovie;
 import com.shwe.util.XDownloader;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class SimpleVideoPlayer extends AppCompatActivity {
     private SimpleExoPlayer player;
     private PlayerView playerView;
     private String url,cookie=null;
+    private ItemMovie item_movie;
     private ProgressBar progressBar;
     private XDownloader xDownloader;
 
@@ -71,6 +73,10 @@ public class SimpleVideoPlayer extends AppCompatActivity {
 
         if (intent.getStringExtra("url")!=null){
             url = intent.getStringExtra("url");
+        }
+
+        if (intent.getStringExtra("item_movie") != null) {
+            item_movie = (ItemMovie) intent.getSerializableExtra("item_movie");
         }
 
         // get cookie from intent if google drive
@@ -117,7 +123,7 @@ public class SimpleVideoPlayer extends AppCompatActivity {
         XModel xModel = new XModel();
         xModel.setUrl(url);
         xModel.setCookie(cookie);
-        xDownloader.download(xModel);
+        xDownloader.download(xModel, getString(R.string.save_folder_name), item_movie);
     }
 
     @Override

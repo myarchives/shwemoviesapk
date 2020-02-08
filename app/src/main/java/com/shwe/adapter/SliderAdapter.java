@@ -50,7 +50,7 @@ public class SliderAdapter extends PagerAdapter {
         ImageView imageView = imageLayout.findViewById(R.id.image);
         TextView textTitle = imageLayout.findViewById(R.id.text);
         TextView textSubTitle = imageLayout.findViewById(R.id.textSub);
-        CardView rootLayout = imageLayout.findViewById(R.id.cardView);
+        CardView rootLayout = imageLayout.findViewById(R.id.click_play);
 
         textTitle.setSelected(true);
 
