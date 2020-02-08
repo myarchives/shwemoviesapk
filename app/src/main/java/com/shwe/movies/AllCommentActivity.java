@@ -103,16 +103,9 @@ public class AllCommentActivity extends BaseActivity {
                 String comment = edtComment.getText().toString();
                 if (!comment.isEmpty()) {
                     if (NetworkUtils.isConnected(AllCommentActivity.this)) {
-                        if (myApplication.getIsLogin()) {
-                            sentComment(comment);
-                        } else {
-                            String message = getString(R.string.login_first, getString(R.string.login_first_comment));
-                            showToast(message);
 
-                            Intent intentLogin = new Intent(AllCommentActivity.this, SignInActivity.class);
-                            intentLogin.putExtra("isOtherScreen", true);
-                            startActivity(intentLogin);
-                        }
+                            sentComment(comment);
+
                     } else {
                         showToast(getString(R.string.conne_msg1));
                     }

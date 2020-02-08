@@ -98,22 +98,9 @@ public class MainActivity extends BaseActivity {
                         FavouriteTabFragment favouriteTabFragment = new FavouriteTabFragment();
                         loadFrag(favouriteTabFragment, getString(R.string.menu_favourite), fragmentManager);
                         return true;
-                    case R.id.menu_go_profile:
-                        Intent intentProfile = new Intent(MainActivity.this, ProfileActivity.class);
-                        startActivity(intentProfile);
-                        return true;
                     case R.id.menu_go_setting:
                         SettingFragment settingFragment = new SettingFragment();
                         loadFrag(settingFragment, getString(R.string.menu_setting), fragmentManager);
-                        return true;
-                    case R.id.menu_go_logout:
-                        logOut();
-                        return true;
-                    case R.id.menu_go_log_in:
-                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
                         return true;
                     default:
                         return true;
@@ -164,38 +151,10 @@ public class MainActivity extends BaseActivity {
             txtHeaderName.setText(myApplication.getUserName());
             txtHeaderEmail.setText(myApplication.getUserEmail());
         }
-        if (myApplication.getIsLogin()) {
-            navigationView.getMenu().findItem(R.id.menu_go_log_in).setVisible(false);
-            navigationView.getMenu().findItem(R.id.menu_go_profile).setVisible(true);
-            navigationView.getMenu().findItem(R.id.menu_go_logout).setVisible(true);
-        } else {
-            navigationView.getMenu().findItem(R.id.menu_go_log_in).setVisible(true);
-            navigationView.getMenu().findItem(R.id.menu_go_profile).setVisible(false);
-            navigationView.getMenu().findItem(R.id.menu_go_logout).setVisible(false);
-        }
+
     }
 
-    private void logOut() {
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle(getString(R.string.menu_log_out))
-                .setMessage(getString(R.string.logout_msg))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        myApplication.saveIsLogin(false);
-                        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
-                    }
-                })
-                .setIcon(R.drawable.ic_logout)
-                .show();
-    }
+
 
     @Override
     protected void onResume() {

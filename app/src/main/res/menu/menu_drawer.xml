@@ -37,11 +37,6 @@
             android:icon="@drawable/ic_download_manager"
             android:title="@string/menu_download_manager" />
 
-        <item
-            android:id="@+id/menu_go_profile"
-            android:checkable="false"
-            android:icon="@drawable/ic_profile"
-            android:title="@string/menu_profile" />
 
         <item
             android:id="@+id/menu_go_setting"
@@ -49,17 +44,7 @@
             android:icon="@drawable/ic_setting"
             android:title="@string/menu_setting" />
 
-        <item
-            android:id="@+id/menu_go_logout"
-            android:checked="false"
-            android:icon="@drawable/ic_logout"
-            android:title="@string/menu_log_out" />
 
-        <item
-            android:id="@+id/menu_go_log_in"
-            android:checked="false"
-            android:icon="@drawable/ic_login"
-            android:title="@string/menu_log_in" />
 
     </group>
 </menu>

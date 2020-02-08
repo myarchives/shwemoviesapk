@@ -33,7 +33,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ItemRowH
     @Override
     public void onBindViewHolder(@NonNull final ItemRowHolder holder, final int position) {
         final ItemComment singleItem = dataList.get(position);
-        holder.textUserName.setText(singleItem.getUserName());
         holder.textComment.setText(singleItem.getCommentText());
         holder.textCommentDate.setText(singleItem.getCommentDate());
 
@@ -49,7 +48,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ItemRowH
 
         ItemRowHolder(View itemView) {
             super(itemView);
-            textUserName = itemView.findViewById(R.id.textView_userName_comment_adapter);
             textComment = itemView.findViewById(R.id.textView_comment_adapter);
             textCommentDate = itemView.findViewById(R.id.textView_date_comment_adapter);
         }

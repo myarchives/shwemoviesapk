@@ -60,15 +60,30 @@
         android:layout_above="@+id/adView"
         android:layout_alignWithParentIfMissing="true"
         android:layout_below="@+id/toolbar_main">
+    <RelativeLayout
+        android:id="@+id/playgp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:id="@+id/playerSection"
+        <ImageView
+            android:id="@+id/imageCover_md"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/bg"
-            android:orientation="vertical" />
+            android:layout_height="200dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:onClick="HDPlay"
+            android:id="@+id/imagePlay"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_play_circle" />
+    </RelativeLayout>
+
         <LinearLayout
-            android:layout_below="@id/playerSection"
+            android:layout_below="@id/playgp"
             android:id="@+id/d_Cat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -191,50 +206,80 @@
                 android:layout_height="3dp"
                 android:layout_margin="5dp"
                 android:background="@color/tv_text_bg" />
-
-            <LinearLayout
+            <RelativeLayout
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:id="@+id/cat_view"
+                android:layout_below="@id/playgp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <com.github.ornolfr.ratingview.RatingView
-                    android:id="@+id/ratingView"
+                >
+                <LinearLayout
+                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:drawable_empty="@drawable/ic_star_empty"
-                    app:drawable_filled="@drawable/ic_star_filled"
-                    app:drawable_half="@drawable/ic_star_half"
-                    app:drawable_margin="2dp"
-                    app:drawable_size="30dp"
-                    app:is_indicator="true"
-                    app:max_count="5" />
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.github.ornolfr.ratingview.RatingView
+                        android:id="@+id/ratingView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:drawable_empty="@drawable/ic_star_empty"
+                        app:drawable_filled="@drawable/ic_star_filled"
+                        app:drawable_half="@drawable/ic_star_half"
+                        app:drawable_margin="2dp"
+                        app:drawable_size="25dp"
+                        app:is_indicator="true"
+                        app:max_count="5" />
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/textRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/yellow_btn"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="4"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/imageEditRate"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_edit_rate"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <TextView
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/textRate"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/textCategory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/yellow_btn"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="4"
-                    android:textColor="@color/white"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/app_name"
+                    android:textColor="@color/title_sub_text"
                     android:textSize="12sp" />
 
-                <ImageView
-                    android:id="@+id/imageEditRate"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/ic_edit_rate"
-                    android:visibility="gone" />
-            </LinearLayout>
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/textViews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/title_sub_text"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+
 
         </LinearLayout>
 
@@ -260,127 +305,7 @@
 
 
 
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/click_play"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        app:cardBackgroundColor="@color/title_box_bg"
-                        app:cardCornerRadius="5dp"
-                        app:cardUseCompatPadding="false"
-                        app:elevation="0dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="10dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textTitle"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="marquee"
-                                android:marqueeRepeatLimit="marquee_forever"
-                                android:singleLine="true"
-                                android:text="@string/app_name"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp">
-
-                                <TextView
-                                    android:id="@+id/textCategory"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentStart="true"
-                                    android:text="@string/app_name"
-                                    android:textColor="@color/title_sub_text"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:id="@+id/textViews"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentEnd="true"
-                                    android:textColor="@color/title_sub_text"
-                                    android:textSize="12sp" />
-
-                            </RelativeLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <Button
-                                    android:id="@+id/hd_play"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:onClick="HDPlay"
-                                    android:text="HD Play" />
-
-                                <Button
-                                    android:id="@+id/sd_play"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:onClick="SDPlay"
-                                    android:text="SD Play" />
-
-                                <Button
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:onClick="HDDownload"
-                                    android:text="HD Down" />
-
-                                <Button
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:onClick="SDDownload"
-                                    android:text="SD Down" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="12dp"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
-
-
-
-                                <TextView
-
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:background="@drawable/blue_btn"
-                                    android:paddingStart="12dp"
-                                    android:paddingTop="5dp"
-                                    android:paddingEnd="12dp"
-                                    android:paddingBottom="5dp"
-                                    android:text="@string/report_here"
-                                    android:textColor="@color/white"
-                                    android:textSize="14sp" />
-
-                                <ImageView
-
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
-                                    android:layout_marginStart="8dp"
-                                    android:contentDescription="@string/app_name"
-                                    android:src="@drawable/ic_fav" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-
-                    </android.support.v7.widget.CardView>
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -367,16 +367,9 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
         editTextComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myApplication.getIsLogin()) {
-                    showCommentBox();
-                } else {
-                    String message = getString(R.string.login_first, getString(R.string.login_first_comment));
-                    showToast(message);
 
-                    Intent intentLogin = new Intent(TVDetailsActivity.this, SignInActivity.class);
-                    intentLogin.putExtra("isOtherScreen", true);
-                    startActivity(intentLogin);
-                }
+                    showCommentBox();
+
             }
         });
 
@@ -404,37 +397,22 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
         ratingView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myApplication.getIsLogin()) {
                     DialogUtil.showRateDialog(TVDetailsActivity.this, TVDetailsActivity.this, Id, "channel");
-                } else {
-                    String message = getString(R.string.login_first, getString(R.string.login_first_rate));
-                    showToast(message);
 
-                    Intent intentLogin = new Intent(TVDetailsActivity.this, SignInActivity.class);
-                    intentLogin.putExtra("isOtherScreen", true);
-                    startActivity(intentLogin);
-                }
             }
         });
 
         textReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (myApplication.getIsLogin()) {
+
                     Bundle bundle = new Bundle();
                     bundle.putString("postId", Id);
                     bundle.putString("postType", "channel");
                     ReportFragment reportFragment = new ReportFragment();
                     reportFragment.setArguments(bundle);
                     reportFragment.show(getSupportFragmentManager(), reportFragment.getTag());
-                } else {
-                    String message = getString(R.string.login_first, getString(R.string.login_first_report));
-                    showToast(message);
 
-                    Intent intentLogin = new Intent(TVDetailsActivity.this, SignInActivity.class);
-                    intentLogin.putExtra("isOtherScreen", true);
-                    startActivity(intentLogin);
-                }
             }
         });
 

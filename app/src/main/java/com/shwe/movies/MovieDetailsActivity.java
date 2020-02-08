@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -78,6 +77,7 @@ import com.shwe.util.IsRTL;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.RvOnClickListener;
 import com.shwe.util.XDownloader;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
@@ -97,8 +97,8 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     WebView webView;
     RatingView ratingView;
     LinearLayout textReport;
-    TextView textTitle, textCategory, textRate,  textRelViewAll, textComViewAll, textNoComment, textCount;
-    ImageView imageEditRate, imageFav;
+    TextView  textCategory, textRate,  textRelViewAll, textComViewAll, textNoComment, textCount;
+    ImageView imageEditRate, imageFav,imageCover;
     RecyclerView rvRelated, rvComment;
     ItemMovie itemMovie;
     ArrayList<ItemMovie> mListItemRelated;
@@ -115,7 +115,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     NestedScrollView nestedScrollView;
     Toolbar toolbar;
     private int playerHeight;
-    FrameLayout frameLayout;
     boolean isFullScreen = false;
     boolean isPlayerIsYt = false;
     private YouTubePlayer youTubePlayer;
@@ -177,7 +176,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         webView = findViewById(R.id.webView);
         ratingView = findViewById(R.id.ratingView);
         editTextComment = findViewById(R.id.editText_comment_md);
-        textTitle = findViewById(R.id.textTitle);
+
         textCategory = findViewById(R.id.textCategory);
         textRate = findViewById(R.id.textRate);
         textReport = findViewById(R.id.textReport);
@@ -185,15 +184,11 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         textComViewAll = findViewById(R.id.textComViewAll);
         textNoComment = findViewById(R.id.textView_noComment_md);
         textCount = findViewById(R.id.textViews);
+        imageCover=findViewById(R.id.imageCover_md);
 
-        frameLayout = findViewById(R.id.playerSection);
-        int columnWidth = NetworkUtils.getScreenWidth(this);
-        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(columnWidth, columnWidth / 2));
-        playerHeight = frameLayout.getLayoutParams().height;
 
         editTextComment.setClickable(true);
         editTextComment.setFocusable(false);
-        textTitle.setSelected(true);
 
         rvRelated = findViewById(R.id.rv_related);
         rvComment = findViewById(R.id.rv_comment);
@@ -216,6 +211,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
         if (NetworkUtils.isConnected(MovieDetailsActivity.this)) {
             getDetails();
+
             progressDialog = new ProgressDialog(this);
             progressDialog.setCancelable(false);
             xGetter = new XGetter(this);
@@ -541,11 +537,13 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                                 itemMovie.setMovieDesc(objJson.getString(Constant.MOVIE_DESC));
                                 itemMovie.setMoviePoster(objJson.getString(Constant.MOVIE_POSTER));
                                 itemMovie.setMovieCover(objJson.getString(Constant.MOVIE_COVER));
+                                Picasso.get().load(objJson.getString(Constant.MOVIE_COVER)).placeholder(R.drawable.place_holder_slider).into(imageCover);
                                 itemMovie.setLanguageName(objJson.getString(Constant.MOVIE_LANGUAGE));
                                 itemMovie.setLanguageBackground(objJson.getString(Constant.MOVIE_LANGUAGE_BACK));
                                 itemMovie.setLanguageId(objJson.getString(Constant.MOVIE_LANGUAGE_ID));
                                 itemMovie.setRateAvg(objJson.getString(Constant.MOVIE_RATE));
                                 itemMovie.setMovieUrl(objJson.getString(Constant.MOVIE_URL));
+
                                 itemMovie.setMovieHDLink(objJson.getString(Constant.MOVIE_HDLINK));
                                 itemMovie.setMovieSDLink(objJson.getString(Constant.MOVIE_SDLINK));
                                 itemMovie.setMovieType(objJson.getString(Constant.MOVIE_TYPE));
@@ -602,7 +600,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
     private void displayData() {
         setTitle(itemMovie.getMovieTitle());
-        textTitle.setText(itemMovie.getMovieTitle());
         textCategory.setText(itemMovie.getLanguageName());
         textRate.setText(itemMovie.getRateAvg());
         ratingView.setRating(Float.parseFloat(itemMovie.getRateAvg()));
@@ -625,27 +622,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         webView.loadDataWithBaseURL(null, text, mimeType, encoding, null);
 
 
-        switch (itemMovie.getMovieType()) {
-            case "server_url":
-            case "local_url":
-                if (casty.isConnected()) {
-                    ChromecastScreenFragment chromecastScreenFragment = new ChromecastScreenFragment();
-                    fragmentManager.beginTransaction().replace(R.id.playerSection, chromecastScreenFragment).commitAllowingStateLoss();
-                } else {
-                    ExoPlayerFragment exoPlayerFragment = ExoPlayerFragment.newInstance(itemMovie.getMovieUrl());
-                    fragmentManager.beginTransaction().replace(R.id.playerSection, exoPlayerFragment).commitAllowingStateLoss();
-                }
-                break;
-            case "youtube_url":
-                isPlayerIsYt = true;
-                String videoId = NetworkUtils.getVideoId(itemMovie.getMovieUrl());
-                playYoutube(videoId);
-                break;
-            default:
-                EmbeddedImageFragment embeddedImageFragment = EmbeddedImageFragment.newInstance(itemMovie.getMovieUrl(), itemMovie.getMovieCover(), true);
-                fragmentManager.beginTransaction().replace(R.id.playerSection, embeddedImageFragment).commitAllowingStateLoss();
-                break;
-        }
 
 
         if (!mListItemRelated.isEmpty()) {
@@ -675,16 +651,9 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         }
 
         editTextComment.setOnClickListener(v -> {
-            if (myApplication.getIsLogin()) {
-                showCommentBox();
-            } else {
-                String message = getString(R.string.login_first, getString(R.string.login_first_comment));
-                showToast(message);
 
-                Intent intentLogin = new Intent(MovieDetailsActivity.this, SignInActivity.class);
-                intentLogin.putExtra("isOtherScreen", true);
-                startActivity(intentLogin);
-            }
+                showCommentBox();
+
         });
 
         textComViewAll.setOnClickListener(v -> {
@@ -759,22 +728,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
             @Override
             public void onDisconnected() {
-                switch (itemMovie.getMovieType()) {
-                    case "server_url":
-                    case "local_url":
-                        ExoPlayerFragment exoPlayerFragment = ExoPlayerFragment.newInstance(itemMovie.getMovieUrl());
-                        fragmentManager.beginTransaction().replace(R.id.playerSection, exoPlayerFragment).commitAllowingStateLoss();
-                        break;
-                    case "youtube_url":
-                        isPlayerIsYt = true;
-                        String videoId = NetworkUtils.getVideoId(itemMovie.getMovieUrl());
-                        playYoutube(videoId);
-                        break;
-                    default:
-                        EmbeddedImageFragment embeddedImageFragment = EmbeddedImageFragment.newInstance(itemMovie.getMovieUrl(), itemMovie.getMovieCover(), true);
-                        fragmentManager.beginTransaction().replace(R.id.playerSection, embeddedImageFragment).commitAllowingStateLoss();
-                        break;
-                }
+
             }
         });
     }
@@ -982,14 +936,13 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         mAdViewLayout.setVisibility(View.VISIBLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, playerHeight));
+
     }
 
     private void gotoFullScreen() {
         nestedScrollView.setVisibility(View.GONE);
         toolbar.setVisibility(View.GONE);
         mAdViewLayout.setVisibility(View.GONE);
-        frameLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
@@ -1088,7 +1041,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
     public void HDPlay(View view) {
        // letPlay(itemMovie.getMovieHDLink());
-        ChooseDialog chooseDialog=new ChooseDialog(view.getContext(),true);
+        ChooseDialog chooseDialog=new ChooseDialog(view.getContext(),this,true,itemMovie.getMovieHDLink(),itemMovie.getMovieSDLink(),itemMovie);
         chooseDialog.show();
     }
 
@@ -1101,6 +1054,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     }
 
     public void HDDownload(View view) {
-        letDownload(itemMovie.getMovieHDLink());
+        ChooseDialog chooseDialog=new ChooseDialog(view.getContext(),this,false,itemMovie.getMovieHDLink(),itemMovie.getMovieSDLink(),itemMovie);
+        chooseDialog.show();
     }
 }

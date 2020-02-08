@@ -8,8 +8,8 @@
     <string name="intro_1_desc">Display Channel based on Category , Latest and Featured also play in External Player as well</string>
     <string name="intro_2_title">Chromecast Channel </string>
     <string name="intro_2_desc">Play Channel in TV using Google Cast</string>
-    <string name="intro_3_title">Youtube Video</string>
-    <string name="intro_3_desc">Play Youtube Video as well as Live Youtube Video</string>
+    <string name="intro_3_title" translatable="false">Youtube Video</string>
+    <string name="intro_3_desc" translatable="false">Play Youtube Video as well as Live Youtube Video</string>
 
     <!--Login/Register -->
     <string name="welcome_back">Welcome Back</string>
@@ -19,17 +19,17 @@
     <string name="password_login">Password</string>
     <string name="phone_login">Phone</string>
     <string name="remember_me">Remember Me</string>
-    <string name="login">Login</string>
+    <string name="login" translatable="false">Login</string>
     <string name="forgot_password">Forgot Your Password ?</string>
     <string name="no_account">Don\'t Have an Account? </string>
     <string name="sign_up">Sign Up</string>
-    <string name="register">Register</string>
+    <string name="register" translatable="false">Register</string>
     <string name="already_account">Already Have an Account? </string>
     <string name="forgot_description">Enter your email address below and  we\'ll send you email with password</string>
     <string name="button_text_forgot_password">Forgot your password?</string>
     <string name="please_enter_email">Enter your email</string>
     <string name="send">Send</string>
-    <string name="update">Update</string>
+    <string name="update" translatable="false">Update</string>
 
     <!--Navigation drawer -->
     <string name="menu_home">Home</string>
@@ -72,9 +72,9 @@
     <string name="about_us_about">About</string>
 
     <!-- if you want to RTL then put it true other wise it false-->
-    <string name="isRTL">false</string>
+    <string name="isRTL" translatable="false">false</string>
 
-    <string name="tag_line">Watch Live TV</string>
+    <string name="tag_line" translatable="false">Watch Live TV</string>
     <string name="share_msg">Hi,I would like to share Application which is used to play tv and movies free please download it from Google Play Store Free Here \n https://play.google.com/store/apps/details?id=</string>
     <string name="play_more_apps">https://play.google.com/store/apps/developer?id=Viaan+Parmar</string>
     <string name="back_key">Please click BACK again to exit</string>
@@ -95,7 +95,7 @@
 
     <string name="rating">Rating....</string>
     <string name="rating_des">How likely are you to recommend Moovit to a friend? (1-low,5-high)</string>
-    <string name="submit">Submit</string>
+    <string name="submit" translatable="false">Submit</string>
 
     <string name="report_message">Report Message</string>
 
@@ -104,7 +104,7 @@
     <string name="no_fav">No Favourite Found</string>
     <string name="search">Search</string>
     <string name="total_num_season">Total No of Season - %d</string>
-    <string name="triangle_down">\u25BC</string>
+    <string name="triangle_down" translatable="false">\u25BC</string>
 
     <!--home -->
     <string name="home_category">TV Categories</string>
@@ -114,30 +114,38 @@
 
     <string name="logout_msg">Are you sure you want to logout?</string>
     <string name="login_first">You have to login first for %s</string>
-    <string name="login_first_rate">rating</string>
-    <string name="login_first_comment">comment</string>
-    <string name="login_first_report">report</string>
+    <string name="login_first_rate" translatable="false">rating</string>
+    <string name="login_first_comment" translatable="false">comment</string>
+    <string name="login_first_report" translatable="false">report</string>
 
-    <string name="youtube_api_key">AIzaSyAYJwy6nzCFqgr5LtihRI3YuVBb_34aprw</string>
+    <string name="youtube_api_key" translatable="false">AIzaSyAYJwy6nzCFqgr5LtihRI3YuVBb_34aprw</string>
     <string name="try_again">Try Again</string>
     <string name="stream_not_found">Unfortunately stream url does not found please report it</string>
     <string name="now_playing">Now Playing</string>
 
     <string name="genre">Genre</string>
-    <string name="language">Language</string>
+    <string name="language" translatable="false">Language</string>
 
     <string name="admob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="default_notification_channel_id">AndroidLiveTVSeries</string>
 
-    <string name="privacy_url">http://apptific.com/PlayStore/Privacy-Policy.html</string>
+    <string name="privacy_url" translatable="false">http://apptific.com/PlayStore/Privacy-Policy.html</string>
 
     <string name="count">%s Views</string>
     <string name="casty_introduction_text">Use this button to connect with Chromecast</string>
     <string name="cast_youtube">Youtube and Embedded link direct does not cast</string>
     <string name="cast_play_custom">Playing in Connected Chromecast</string>
 
-    <string name="invalid_license">Invalid License</string>
-    <string name="license_msg">You are using invalid License or Package name is already in use, for more information contact us: info@viaviweb.com or viaviwebtech@gmail.com</string>
+    <string name="invalid_license" translatable="false">Invalid License</string>
+    <string name="license_msg" translatable="false">You are using invalid License or Package name is already in use, for more information contact us: info@viaviweb.com or viaviwebtech@gmail.com</string>
     <string name="something_went">Something went wrong please restart application</string>
     <string name="user_disable">Admin was disable or deleted you as user</string>
+    <string name="choose_one">Choose One</string>
+    <string name="hd_play">HD Play</string>
+    <string name="sd_play">SD Play</string>
+    <string name="delete">delete</string>
+    <string name="menu_download_manager">Download</string>
+    <string name="save_folder_name">Save Folder</string>
+    <string name="hd_download">HD Download</string>
+    <string name="sd_download">SD Download</string>
 </resources>
