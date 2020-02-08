@@ -603,6 +603,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         String direction = isRTL ? "rtl" : "ltr";
 
         String text = "<html dir=" + direction + "><head>"
+                + "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">"
                 + "<style type=\"text/css\">@font-face {font-family: MyFont;src: url(\"file:///android_asset/fonts/custom.ttf\")}body{font-family: MyFont;color: #9f9f9f;font-size:14px;margin-left:0px;line-height:1.3}"
                 + "</style></head>"
                 + "<body>"
