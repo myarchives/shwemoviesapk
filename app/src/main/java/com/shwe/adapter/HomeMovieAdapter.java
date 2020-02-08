@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.shwe.item.ItemMovie;
 import com.shwe.movies.R;
 import com.shwe.util.PopUpAds;
 import com.shwe.util.RvOnClickListener;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class HomeMovieAdapter extends RecyclerView.Adapter<HomeMovieAdapter.Item
             image = itemView.findViewById(R.id.image);
             text = itemView.findViewById(R.id.text);
             textLanguage = itemView.findViewById(R.id.textLang);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.click_play);
         }
     }
 }

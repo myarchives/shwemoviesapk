@@ -230,7 +230,8 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                                 //If google drive video you need to set cookie for play or download
                                 String cookie = model.getCookie();
                             }
-                            multipleQualityDialog(vidURL, true);
+                            doneExoPlaly(vidURL.get(0));
+//                            multipleQualityDialog(vidURL, true);
                         } else doneExoPlaly(null);
                     } else {
                         doneExoPlaly(vidURL.get(0));
@@ -252,13 +253,15 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                     progressDialog.dismiss();
                     if (multiple_quality) {
                         if (vidURL != null) {
+
                             //This video you can choose qualities
                             for (XModel model : vidURL) {
                                 String url = model.getUrl();
                                 //If google drive video you need to set cookie for play or download
                                 String cookie = model.getCookie();
                             }
-                            multipleQualityDialog(vidURL, false);
+                            doneDonwload(vidURL.get(0));
+//                            multipleQualityDialog(vidURL, false);
                         } else doneDonwload(null);
                     } else {
                         doneDonwload(vidURL.get(0));
@@ -316,6 +319,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
             url = xModel.getUrl();
             Intent intent = new Intent(getApplicationContext(), SimpleVideoPlayer.class);
             intent.putExtra("url", xModel.getUrl());
+            intent.putExtra("item_movie", itemMovie);
             //If google drive you need to put cookie
             if (xModel.getCookie() != null) {
                 intent.putExtra("cookie", xModel.getCookie());
@@ -378,7 +382,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     private void downloadFile(XModel xModel) {
         current_Xmodel = xModel;
         if (checkPermissions()) {
-            xDownloader.download(current_Xmodel);
+            xDownloader.download(current_Xmodel, getString(R.string.save_folder_name), itemMovie);
         }
     }
 
@@ -668,30 +672,24 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
             textNoComment.setVisibility(View.VISIBLE);
         }
 
-        editTextComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (myApplication.getIsLogin()) {
-                    showCommentBox();
-                } else {
-                    String message = getString(R.string.login_first, getString(R.string.login_first_comment));
-                    showToast(message);
+        editTextComment.setOnClickListener(v -> {
+            if (myApplication.getIsLogin()) {
+                showCommentBox();
+            } else {
+                String message = getString(R.string.login_first, getString(R.string.login_first_comment));
+                showToast(message);
 
-                    Intent intentLogin = new Intent(MovieDetailsActivity.this, SignInActivity.class);
-                    intentLogin.putExtra("isOtherScreen", true);
-                    startActivity(intentLogin);
-                }
+                Intent intentLogin = new Intent(MovieDetailsActivity.this, SignInActivity.class);
+                intentLogin.putExtra("isOtherScreen", true);
+                startActivity(intentLogin);
             }
         });
 
-        textComViewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MovieDetailsActivity.this, AllCommentActivity.class);
-                intent.putExtra("postId", Id);
-                intent.putExtra("postType", "movie");
-                startActivity(intent);
-            }
+        textComViewAll.setOnClickListener(v -> {
+            Intent intent = new Intent(MovieDetailsActivity.this, AllCommentActivity.class);
+            intent.putExtra("postId", Id);
+            intent.putExtra("postType", "movie");
+            startActivity(intent);
         });
 
         textRelViewAll.setOnClickListener(new View.OnClickListener() {

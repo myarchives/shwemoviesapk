@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.shwe.item.ItemEpisode;
 import com.shwe.movies.R;
 import com.shwe.util.RvOnClickListener;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ItemRowH
             image = itemView.findViewById(R.id.image);
             text = itemView.findViewById(R.id.text);
             textNowPlay = itemView.findViewById(R.id.textNowPlay);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.click_play);
         }
     }
 }

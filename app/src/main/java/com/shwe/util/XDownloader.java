@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.widget.Toast;
 
 import com.htetznaing.xgetter.Model.XModel;
+import com.shwe.item.ItemMovie;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -37,11 +38,13 @@ public class XDownloader {
         mBaseFolderPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/";
     }
 
-    public void download(XModel xModel){
+    public void download(XModel xModel, String filename, ItemMovie itemMovie) {
         try {
+            mBaseFolderPath = mBaseFolderPath = Environment.getExternalStorageDirectory() + "/" + filename + "/";
+            ;
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
             Date now = new Date();
-            String fileName = formatter.format(now) + "_xStreamPlayer.mp4";
+            String fileName = itemMovie.getMovieTitle() + "_" + filename + ".mp4";
 
             if (!new File(mBaseFolderPath).exists()) {
                 new File(mBaseFolderPath).mkdir();

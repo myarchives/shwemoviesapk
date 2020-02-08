@@ -31,6 +31,11 @@
             android:checked="false"
             android:icon="@drawable/ic_favourite"
             android:title="@string/menu_favourite" />
+        <item
+            android:id="@+id/menu_go_download_manager"
+            android:checked="false"
+            android:icon="@drawable/ic_download_manager"
+            android:title="@string/menu_download_manager" />
 
         <item
             android:id="@+id/menu_go_profile"

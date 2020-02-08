@@ -1,6 +1,8 @@
 package com.shwe.item;
 
-public class ItemMovie {
+import java.io.Serializable;
+
+public class ItemMovie implements Serializable {
     private String id;
     private String movieTitle;
     private String movieDesc;

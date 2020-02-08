@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.shwe.item.ItemMovie;
 import com.shwe.movies.R;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.PopUpAds;
 import com.shwe.util.RvOnClickListener;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class FavouriteMovieAdapter extends RecyclerView.Adapter<FavouriteMovieAd
             image = itemView.findViewById(R.id.image);
             text = itemView.findViewById(R.id.text);
             textLanguage = itemView.findViewById(R.id.textLang);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.click_play);
         }
     }
 }
