@@ -3,7 +3,11 @@ package com.shwe.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -15,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.shwe.fragment.DownloadedFragment;
 import com.shwe.item.ItemDown;
 import com.shwe.movies.R;
 import com.shwe.movies.SimpleVideoPlayer;
@@ -64,8 +67,7 @@ public class DownVideoAdapter extends RecyclerView.Adapter<DownVideoAdapter.Item
                                 .setPositiveButton("OK", (dialogInterface, i) -> {
                                     File file = new File(singleItem.getFilepath());
                                     if (file.delete()) {
-                                        DownloadedFragment downloadedFragment = new DownloadedFragment();
-                                        downloadedFragment.new getAllDown().execute();
+                                        new getAllDown().execute();
                                     }
 
                                 })
@@ -86,10 +88,57 @@ public class DownVideoAdapter extends RecyclerView.Adapter<DownVideoAdapter.Item
 
     }
 
-
     @Override
     public int getItemCount() {
         return (null != dataList ? dataList.size() : 0);
+    }
+
+    private class getAllDown extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            dataList.clear();
+            String path = Environment.getExternalStorageDirectory().toString() + "/" + mContext.getString(R.string.save_folder_name);
+            File directory = new File(path);
+            boolean success = true;
+            if (!directory.exists()) {
+                success = directory.mkdirs();
+            }
+            if (success) {
+                File[] files = directory.listFiles();
+                for (File file : files) {
+                    if (file.isFile() && file.getName().contains("_" + mContext.getString(R.string.save_folder_name))) {
+                        ItemDown itemDown = new ItemDown();
+                        itemDown.setName(file.getName().replace("_" + mContext.getString(R.string.save_folder_name), ""));
+                        itemDown.setFilepath(file.getAbsolutePath());
+                        itemDown.setThumbnailpath(file.getAbsolutePath());
+                        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                        retriever.setDataSource(mContext, Uri.fromFile(file));
+                        Long time = Long.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000;
+                        long hour = time / 3600;
+                        long minute = (time % 3600) / 60;
+                        long second = (time % 3600) % 60;
+                        itemDown.setDuration(hour + ":" + minute + ":" + second);
+                        itemDown.setSize((file.length() / (1024 * 1024)) + "MB");
+                        dataList.add(itemDown);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            notifyDataSetChanged();
+        }
     }
 
     public class ItemRowHolder extends RecyclerView.ViewHolder {
