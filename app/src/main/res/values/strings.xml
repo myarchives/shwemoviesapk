@@ -148,4 +148,6 @@
     <string name="save_folder_name">shwemovies</string>
     <string name="hd_download">HD Download</string>
     <string name="sd_download">SD Download</string>
+    <string name="link_die_error">Not Availabe</string>
+    <string name="try_another_link">Try Another Link</string>
 </resources>

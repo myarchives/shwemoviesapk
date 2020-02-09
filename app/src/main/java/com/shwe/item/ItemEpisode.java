@@ -1,29 +1,31 @@
 package com.shwe.item;
 
+import java.util.ArrayList;
+
 public class ItemEpisode {
 
     private String id;
     private String episodeTitle;
     private String episodeUrl;
-    private String episodeHDLink;
-    private String getEpisodeSDLink;
+    private ArrayList<String> episodeHDLink;
+    private ArrayList<String> getEpisodeSDLink;
     private String episodePoster;
     private String episodeType;
     private boolean isPlaying = false;
 
-    public String getEpisodeHDLink() {
+    public ArrayList<String> getEpisodeHDLink() {
         return episodeHDLink;
     }
 
-    public void setEpisodeHDLink(String episodeHDLink) {
+    public void setEpisodeHDLink(ArrayList<String> episodeHDLink) {
         this.episodeHDLink = episodeHDLink;
     }
 
-    public String getGetEpisodeSDLink() {
+    public ArrayList<String> getGetEpisodeSDLink() {
         return getEpisodeSDLink;
     }
 
-    public void setGetEpisodeSDLink(String getEpisodeSDLink) {
+    public void setGetEpisodeSDLink(ArrayList<String> getEpisodeSDLink) {
         this.getEpisodeSDLink = getEpisodeSDLink;
     }
 

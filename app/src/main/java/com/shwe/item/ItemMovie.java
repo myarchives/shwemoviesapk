@@ -1,6 +1,7 @@
 package com.shwe.item;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ItemMovie implements Serializable {
     private String id;
@@ -15,22 +16,22 @@ public class ItemMovie implements Serializable {
     private String languageBackground;
     private String movieUrl;
     private String movieType;
-    private String movieHDLink;
-    private String movieSDLink;
+    private ArrayList<String> movieHDLink;
+    private ArrayList<String> movieSDLink;
 
-    public String getMovieHDLink() {
+    public ArrayList<String> getMovieHDLink() {
         return movieHDLink;
     }
 
-    public void setMovieHDLink(String movieHDLink) {
+    public void setMovieHDLink(ArrayList<String> movieHDLink) {
         this.movieHDLink = movieHDLink;
     }
 
-    public String getMovieSDLink() {
+    public ArrayList<String> getMovieSDLink() {
         return movieSDLink;
     }
 
-    public void setMovieSDLink(String movieSDLink) {
+    public void setMovieSDLink(ArrayList<String> movieSDLink) {
         this.movieSDLink = movieSDLink;
     }
 
@@ -135,18 +136,8 @@ public class ItemMovie implements Serializable {
         return "ItemMovie{" +
                 "id='" + id + '\'' +
                 ", movieTitle='" + movieTitle + '\'' +
-                ", movieDesc='" + movieDesc + '\'' +
-                ", moviePoster='" + moviePoster + '\'' +
-                ", movieCover='" + movieCover + '\'' +
-                ", totalViews='" + totalViews + '\'' +
-                ", rateAvg='" + rateAvg + '\'' +
-                ", languageId='" + languageId + '\'' +
-                ", languageName='" + languageName + '\'' +
-                ", languageBackground='" + languageBackground + '\'' +
-                ", movieUrl='" + movieUrl + '\'' +
-                ", movieType='" + movieType + '\'' +
-                ", movieHDLink='" + movieHDLink + '\'' +
-                ", movieSDLink='" + movieSDLink + '\'' +
+                ", movieHDLink=" + movieHDLink +
+                ", movieSDLink=" + movieSDLink +
                 '}';
     }
 }

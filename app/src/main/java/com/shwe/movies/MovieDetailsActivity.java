@@ -1,25 +1,16 @@
 package com.shwe.movies;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -38,8 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
-import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.github.ornolfr.ratingview.RatingView;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -80,7 +69,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -96,6 +84,7 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     ImageView imageEditRate, imageFav,imageCover;
     RecyclerView rvRelated, rvComment;
     ItemMovie itemMovie;
+    ArrayList<String> hdlinks, sdlinks;
     ArrayList<ItemMovie> mListItemRelated;
     ArrayList<ItemComment> mListItemComment;
     HomeMovieAdapter homeMovieAdapter;
@@ -159,6 +148,8 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
         }
         mListItemRelated = new ArrayList<>();
         mListItemComment = new ArrayList<>();
+        sdlinks = new ArrayList<>();
+        hdlinks = new ArrayList<>();
         itemMovie = new ItemMovie();
 
         pDialog = new ProgressDialog(this);
@@ -237,43 +228,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                 }
             });
 
-            xGetterDownload = new XGetter(this);
-            xGetterDownload.onFinish(new XGetter.OnTaskCompleted() {
-
-                @Override
-                public void onTaskCompleted(ArrayList<XModel> vidURL, boolean multiple_quality) {
-                    progressDialog.dismiss();
-                    if (multiple_quality) {
-                        if (vidURL != null) {
-
-                            //This video you can choose qualities
-                            for (XModel model : vidURL) {
-                                String url = model.getUrl();
-                                //If google drive video you need to set cookie for play or download
-                                String cookie = model.getCookie();
-                            }
-                            doneDonwload(vidURL.get(0));
-//                            multipleQualityDialog(vidURL, false);
-                        } else doneDonwload(null);
-                    } else {
-                        doneDonwload(vidURL.get(0));
-                    }
-                }
-
-                @Override
-                public void onError() {
-                    progressDialog.dismiss();
-                    doneDonwload(null);
-                }
-            });
-
-            xDownloader = new XDownloader(this);
-            xDownloader.OnDownloadFinishedListerner(new XDownloader.OnDownloadFinished() {
-                @Override
-                public void onCompleted(String path) {
-
-                }
-            });
         } else {
             showToast(getString(R.string.conne_msg1));
         }
@@ -281,28 +235,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
     }
 
-    private void multipleQualityDialog(ArrayList<XModel> model, boolean status) {
-        CharSequence[] name = new CharSequence[model.size()];
-
-        for (int i = 0; i < model.size(); i++) {
-            name[i] = model.get(i).getQuality();
-        }
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this)
-                .setTitle("Quality!")
-                .setItems(name, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (status)
-                            doneExoPlaly(model.get(which));
-                        else
-                            doneDonwload(model.get(which));
-                    }
-                })
-                .setPositiveButton("OK", null);
-        builder.show();
-    }
 
 
     private void doneExoPlaly(XModel xModel) {
@@ -321,166 +253,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
 
     }
 
-    private void doneDonwload(XModel xModel) {
-        String url = null;
-        if (xModel != null) {
-            url = xModel.getUrl();
-            downloadDialog(xModel);
-        }
-    }
-
-    private void letPlay(String url) {
-        org = url;
-        if (NetworkUtils.isConnected(this)) {
-            progressDialog.show();
-            xGetter.find(url);
-        }
-    }
-
-    private void letDownload(String url) {
-        org = url;
-        if (NetworkUtils.isConnected(this)) {
-            progressDialog.show();
-            xGetterDownload.find(url);
-        }
-    }
-
-
-    private void downloadDialog(XModel xModel) {
-        MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(this);
-        builder.setTitle("Notice!")
-                .setDescription("Choose your downloader")
-                .setStyle(Style.HEADER_WITH_ICON)
-                .setIcon(R.drawable.right)
-                .withDialogAnimation(true)
-                .setPositiveText("Built in downloader")
-                .onPositive((dialog, which) -> downloadFile(xModel))
-                .setNegativeText("ADM")
-                .onNegative((dialog, which) -> downloadWithADM(xModel));
-        MaterialStyledDialog dialog = builder.build();
-        dialog.show();
-    }
-
-    private void downloadFile(XModel xModel) {
-        current_Xmodel = xModel;
-        if (checkPermissions()) {
-            xDownloader.download(current_Xmodel, getString(R.string.save_folder_name), itemMovie);
-        }
-    }
-
-    private boolean checkPermissions() {
-        int storage = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        final List<String> listPermissionsNeeded = new ArrayList<>();
-        if (storage != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1000);
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1000) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadFile(current_Xmodel);
-            } else {
-                checkPermissions();
-                Toast.makeText(this, "You need to allow this permission!", Toast.LENGTH_SHORT).show();
-            }
-            return;
-        }
-    }
-
-    public boolean appInstalledOrNot(String str) {
-        try {
-            getPackageManager().getPackageInfo(str, PackageManager.GET_ACTIVITIES);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
-    //Example Download Google Drive Video with ADM
-    public void downloadWithADM(XModel xModel) {
-        boolean appInstalledOrNot = appInstalledOrNot("com.dv.adm");
-        boolean appInstalledOrNot2 = appInstalledOrNot("com.dv.adm.pay");
-        boolean appInstalledOrNot3 = appInstalledOrNot("com.dv.adm.old");
-        String str3;
-        if (appInstalledOrNot || appInstalledOrNot2 || appInstalledOrNot3) {
-            if (appInstalledOrNot2) {
-                str3 = "com.dv.adm.pay";
-            } else if (appInstalledOrNot) {
-                str3 = "com.dv.adm";
-            } else {
-                str3 = "com.dv.adm.old";
-            }
-
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(xModel.getUrl()), "application/x-mpegURL");
-                intent.setPackage(str3);
-                if (xModel.getCookie() != null) {
-                    intent.putExtra("Cookie", xModel.getCookie());
-                    intent.putExtra("Cookies", xModel.getCookie());
-                    intent.putExtra("cookie", xModel.getCookie());
-                    intent.putExtra("cookies", xModel.getCookie());
-                }
-
-                startActivity(intent);
-                return;
-            } catch (Exception e) {
-                return;
-            }
-        }
-        str3 = "com.dv.adm";
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + str3)));
-        } catch (ActivityNotFoundException e2) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + str3)));
-        }
-    }
-
-    //Example Open Google Drive Video with MX Player
-    private void openWithMXPlayer(XModel xModel) {
-        boolean appInstalledOrNot = appInstalledOrNot("com.mxtech.videoplayer.ad");
-        boolean appInstalledOrNot2 = appInstalledOrNot("com.mxtech.videoplayer.pro");
-        String str2;
-        if (appInstalledOrNot || appInstalledOrNot2) {
-            String str3;
-            if (appInstalledOrNot2) {
-                str2 = "com.mxtech.videoplayer.pro";
-                str3 = "com.mxtech.videoplayer.ActivityScreen";
-            } else {
-                str2 = "com.mxtech.videoplayer.ad";
-                str3 = "com.mxtech.videoplayer.ad.ActivityScreen";
-            }
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri.parse(xModel.getUrl()), "application/x-mpegURL");
-                intent.setPackage(str2);
-                intent.setClassName(str2, str3);
-                if (xModel.getCookie() != null) {
-                    intent.putExtra("headers", new String[]{"cookie", xModel.getCookie()});
-                    intent.putExtra("secure_uri", true);
-                }
-                startActivity(intent);
-                return;
-            } catch (Exception e) {
-                e.fillInStackTrace();
-                Log.d("errorMx", e.getMessage());
-                return;
-            }
-        }
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.mxtech.videoplayer.ad")));
-        } catch (ActivityNotFoundException e2) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.mxtech.videoplayer.ad")));
-        }
-    }
 
 
     private void getDetails() {
@@ -515,7 +287,6 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                             if (objJson.has(Constant.STATUS)) {
                                 lyt_not_found.setVisibility(View.VISIBLE);
                             } else {
-
                                 itemMovie.setId(objJson.getString(Constant.MOVIE_ID));
                                 itemMovie.setMovieTitle(objJson.getString(Constant.MOVIE_TITLE));
                                 itemMovie.setMovieDesc(objJson.getString(Constant.MOVIE_DESC));
@@ -527,12 +298,24 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
                                 itemMovie.setLanguageId(objJson.getString(Constant.MOVIE_LANGUAGE_ID));
                                 itemMovie.setRateAvg(objJson.getString(Constant.MOVIE_RATE));
                                 itemMovie.setMovieUrl(objJson.getString(Constant.MOVIE_URL));
-
-                                itemMovie.setMovieHDLink(objJson.getString(Constant.MOVIE_HDLINK));
-                                itemMovie.setMovieSDLink(objJson.getString(Constant.MOVIE_SDLINK));
                                 itemMovie.setMovieType(objJson.getString(Constant.MOVIE_TYPE));
                                 itemMovie.setTotalViews(objJson.getString(Constant.MOVIE_TOTAL_VIEW));
-
+                                JSONArray jsonArrayHDLinks = objJson.getJSONArray(Constant.MOVIE_HDLINK);
+                                if (jsonArrayHDLinks.length() != 0) {
+                                    for (int j = 0; j < jsonArrayHDLinks.length(); j++) {
+                                        JSONObject objChild = jsonArrayHDLinks.getJSONObject(j);
+                                        hdlinks.add(objChild.getString(Constant.URL));
+                                    }
+                                }
+                                itemMovie.setMovieHDLink(hdlinks);
+                                JSONArray jsonArraySDLinks = objJson.getJSONArray(Constant.MOVIE_SDLINK);
+                                if (jsonArraySDLinks.length() != 0) {
+                                    for (int j = 0; j < jsonArraySDLinks.length(); j++) {
+                                        JSONObject objChild = jsonArraySDLinks.getJSONObject(j);
+                                        sdlinks.add(objChild.getString(Constant.URL));
+                                    }
+                                }
+                                itemMovie.setMovieSDLink(sdlinks);
                                 JSONArray jsonArrayChild = objJson.getJSONArray(Constant.RELATED_ITEM_ARRAY_NAME);
                                 if (jsonArrayChild.length() != 0) {
                                     for (int j = 0; j < jsonArrayChild.length(); j++) {
@@ -659,47 +442,33 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
             }
         });
 
-        ratingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ratingView.setOnClickListener(v -> DialogUtil.showRateDialog(MovieDetailsActivity.this, MovieDetailsActivity.this, Id, "movie"));
 
-                    DialogUtil.showRateDialog(MovieDetailsActivity.this, MovieDetailsActivity.this, Id, "movie");
-
-
-            }
-        });
-
-        textReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("postId", Id);
-                    bundle.putString("postType", "movie");
-                    ReportFragment reportFragment = new ReportFragment();
-                    reportFragment.setArguments(bundle);
-                    reportFragment.show(getSupportFragmentManager(), reportFragment.getTag());
-            }
+        textReport.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("postId", Id);
+            bundle.putString("postType", "movie");
+            ReportFragment reportFragment = new ReportFragment();
+            reportFragment.setArguments(bundle);
+            reportFragment.show(getSupportFragmentManager(), reportFragment.getTag());
         });
 
         isFavourite();
-        imageFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContentValues fav = new ContentValues();
-                if (databaseHelper.getFavouriteById(Id, DatabaseHelper.TABLE_MOVIE)) {
-                    databaseHelper.removeFavouriteById(Id, DatabaseHelper.TABLE_MOVIE);
-                    imageFav.setImageResource(R.drawable.ic_favorite_border);
-                    showToast(getString(R.string.favourite_remove));
-                } else {
-                    fav.put(DatabaseHelper.MOVIE_ID, Id);
-                    fav.put(DatabaseHelper.MOVIE_TITLE, itemMovie.getMovieTitle());
-                    fav.put(DatabaseHelper.MOVIE_POSTER, itemMovie.getMoviePoster());
-                    fav.put(DatabaseHelper.MOVIE_LANGUAGE, itemMovie.getLanguageName());
-                    fav.put(DatabaseHelper.MOVIE_LANGUAGE_BACK, itemMovie.getLanguageBackground());
-                    databaseHelper.addFavourite(DatabaseHelper.TABLE_MOVIE, fav, null);
-                    imageFav.setImageResource(R.drawable.ic_favorited);
-                    showToast(getString(R.string.favourite_add));
-                }
+        imageFav.setOnClickListener(v -> {
+            ContentValues fav = new ContentValues();
+            if (databaseHelper.getFavouriteById(Id, DatabaseHelper.TABLE_MOVIE)) {
+                databaseHelper.removeFavouriteById(Id, DatabaseHelper.TABLE_MOVIE);
+                imageFav.setImageResource(R.drawable.ic_favorite_border);
+                showToast(getString(R.string.favourite_remove));
+            } else {
+                fav.put(DatabaseHelper.MOVIE_ID, Id);
+                fav.put(DatabaseHelper.MOVIE_TITLE, itemMovie.getMovieTitle());
+                fav.put(DatabaseHelper.MOVIE_POSTER, itemMovie.getMoviePoster());
+                fav.put(DatabaseHelper.MOVIE_LANGUAGE, itemMovie.getLanguageName());
+                fav.put(DatabaseHelper.MOVIE_LANGUAGE_BACK, itemMovie.getLanguageBackground());
+                databaseHelper.addFavourite(DatabaseHelper.TABLE_MOVIE, fav, null);
+                imageFav.setImageResource(R.drawable.ic_favorited);
+                showToast(getString(R.string.favourite_add));
             }
         });
 
@@ -1025,18 +794,10 @@ public class MovieDetailsActivity extends BaseActivity implements RateDialog.Rat
     }
 
     public void HDPlay(View view) {
-       // letPlay(itemMovie.getMovieHDLink());
         ChooseDialog chooseDialog = new ChooseDialog(view.getContext(), this, true, itemMovie);
         chooseDialog.show();
     }
 
-    public void SDPlay(View view) {
-        letPlay(itemMovie.getMovieSDLink());
-    }
-
-    public void SDDownload(View view) {
-        letDownload(itemMovie.getMovieSDLink());
-    }
 
     public void HDDownload(View view) {
         ChooseDialog chooseDialog = new ChooseDialog(view.getContext(), this, false, itemMovie);

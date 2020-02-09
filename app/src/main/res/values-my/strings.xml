@@ -94,4 +94,6 @@
     <string name="sd_play">ပုံမှန် ကြည့်ရန်</string>
     <string name="hd_download">အကြည် ဒေါင်းရန်</string>
     <string name="sd_download">ပုံမှန် ဒေါင်းရန်</string>
+    <string name="link_die_error">မရရှိနိုင်ပါ</string>
+    <string name="try_another_link">အခြားလင့်ခ်တစ်ခုကိုကြိုးစားနေသည်</string>
 </resources>

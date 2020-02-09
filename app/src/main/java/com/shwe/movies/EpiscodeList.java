@@ -30,6 +30,7 @@ import cz.msebera.android.httpclient.Header;
 public class EpiscodeList extends BaseActivity {
     RecyclerView recyclerView;
     ArrayList<ItemEpisode> mListItemEpisode;
+    ArrayList<String> hdlinks, sdlinks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class EpiscodeList extends BaseActivity {
             }
         });
         mListItemEpisode = new ArrayList<>();
+        sdlinks = new ArrayList<>();
+        hdlinks = new ArrayList<>();
         String season_id = getIntent().getStringExtra("SEASON_ID");
         String series_id = getIntent().getStringExtra("SERIES_ID");
         String label = getIntent().getStringExtra("LABEL");
@@ -83,8 +86,22 @@ public class EpiscodeList extends BaseActivity {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject objJson = jsonArray.getJSONObject(i);
                             ItemEpisode itemEpisode = new ItemEpisode();
-                            itemEpisode.setEpisodeHDLink(objJson.getString(Constant.EPISODE_HDLINK));
-                            itemEpisode.setGetEpisodeSDLink(objJson.getString(Constant.EPISODE_SDLINK));
+                            JSONArray jsonArrayHDLinks = objJson.getJSONArray(Constant.MOVIE_HDLINK);
+                            if (jsonArrayHDLinks.length() != 0) {
+                                for (int j = 0; j < jsonArrayHDLinks.length(); j++) {
+                                    JSONObject objChild = jsonArrayHDLinks.getJSONObject(j);
+                                    hdlinks.add(objChild.getString(Constant.URL));
+                                }
+                            }
+                            itemEpisode.setEpisodeHDLink(hdlinks);
+                            JSONArray jsonArraySDLinks = objJson.getJSONArray(Constant.MOVIE_SDLINK);
+                            if (jsonArraySDLinks.length() != 0) {
+                                for (int j = 0; j < jsonArraySDLinks.length(); j++) {
+                                    JSONObject objChild = jsonArraySDLinks.getJSONObject(j);
+                                    sdlinks.add(objChild.getString(Constant.URL));
+                                }
+                            }
+                            itemEpisode.setGetEpisodeSDLink(sdlinks);
                             itemEpisode.setId(objJson.getString(Constant.EPISODE_ID));
                             itemEpisode.setEpisodeTitle(objJson.getString(Constant.EPISODE_TITLE));
                             itemEpisode.setEpisodePoster(objJson.getString(Constant.EPISODE_POSTER));

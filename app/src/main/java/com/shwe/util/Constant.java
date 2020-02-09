@@ -47,6 +47,8 @@ public class Constant implements Serializable {
     public static final String MOVIE_LANGUAGE_BACK = "language_background";
     public static final String MOVIE_URL = "movie_url";
     public static final String MOVIE_TYPE = "video_type";
+    public static final String URL = "url";
+
 
     public static final String SERIES_ID = "id";
     public static final String SERIES_TITLE = "series_name";

@@ -25,6 +25,7 @@ public class EpiscodeListAdapter extends RecyclerView.Adapter<EpiscodeListAdapte
     LayoutInflater layoutInflater;
     Activity activity;
 
+
     public EpiscodeListAdapter(Context context, Activity activity, ArrayList<ItemEpisode> ary) {
         this.context = context;
         this.ary = ary;
@@ -48,19 +49,13 @@ public class EpiscodeListAdapter extends RecyclerView.Adapter<EpiscodeListAdapte
         itemMovie.setMovieSDLink(current.getGetEpisodeSDLink());
         itemMovie.setMovieHDLink(current.getEpisodeHDLink());
 
-        holder.btn_play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChooseDialog chooseDialog = new ChooseDialog(context, activity, true, itemMovie);
-                chooseDialog.show();
-            }
+        holder.btn_play.setOnClickListener(view -> {
+            ChooseDialog chooseDialog = new ChooseDialog(context, activity, true, itemMovie);
+            chooseDialog.show();
         });
-        holder.btn_download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ChooseDialog chooseDialog = new ChooseDialog(context, activity, false, itemMovie);
-                chooseDialog.show();
-            }
+        holder.btn_download.setOnClickListener(view -> {
+            ChooseDialog chooseDialog = new ChooseDialog(context, activity, false, itemMovie);
+            chooseDialog.show();
         });
 
 

@@ -77,6 +77,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SeriesDetailsActivity extends BaseActivity implements RateDialog.RateDialogListener {
     ProgressBar mProgressBar, mProgressBarEpisode;
+    ArrayList<String> hdlinks, sdlinks;
     LinearLayout lyt_not_found;
     NestedScrollView nestedScrollView;
     RelativeLayout lytParent;
@@ -150,6 +151,8 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
         mListItemComment = new ArrayList<>();
         mListItemSeason = new ArrayList<>();
         mListItemEpisode = new ArrayList<>();
+        sdlinks = new ArrayList<>();
+        hdlinks = new ArrayList<>();
 
         itemSeries = new ItemSeries();
 
@@ -507,8 +510,22 @@ public class SeriesDetailsActivity extends BaseActivity implements RateDialog.Ra
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject objJson = jsonArray.getJSONObject(i);
                             ItemEpisode itemEpisode = new ItemEpisode();
-                            itemEpisode.setEpisodeHDLink(objJson.getString(Constant.EPISODE_HDLINK));
-                            itemEpisode.setGetEpisodeSDLink(objJson.getString(Constant.EPISODE_SDLINK));
+                            JSONArray jsonArrayHDLinks = objJson.getJSONArray(Constant.MOVIE_HDLINK);
+                            if (jsonArrayHDLinks.length() != 0) {
+                                for (int j = 0; j < jsonArrayHDLinks.length(); j++) {
+                                    JSONObject objChild = jsonArrayHDLinks.getJSONObject(j);
+                                    hdlinks.add(objChild.getString(Constant.URL));
+                                }
+                            }
+                            itemEpisode.setEpisodeHDLink(hdlinks);
+                            JSONArray jsonArraySDLinks = objJson.getJSONArray(Constant.MOVIE_SDLINK);
+                            if (jsonArraySDLinks.length() != 0) {
+                                for (int j = 0; j < jsonArraySDLinks.length(); j++) {
+                                    JSONObject objChild = jsonArraySDLinks.getJSONObject(j);
+                                    sdlinks.add(objChild.getString(Constant.URL));
+                                }
+                            }
+                            itemEpisode.setGetEpisodeSDLink(sdlinks);
                             itemEpisode.setId(objJson.getString(Constant.EPISODE_ID));
                             itemEpisode.setEpisodeTitle(objJson.getString(Constant.EPISODE_TITLE));
                             itemEpisode.setEpisodePoster(objJson.getString(Constant.EPISODE_POSTER));

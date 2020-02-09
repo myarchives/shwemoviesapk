@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,16 +20,31 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.htetznaing.xgetter.Model.XModel;
 import com.htetznaing.xgetter.XGetter;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.shwe.item.ItemMovie;
 import com.shwe.movies.R;
 import com.shwe.movies.SimpleVideoPlayer;
+import com.shwe.util.API;
+import com.shwe.util.Constant;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.XDownloader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+import es.dmoral.toasty.Toasty;
 
 public class ChooseDialog extends BaseDialog {
     TextView title,btn_hd,btn_sd;
@@ -37,24 +52,31 @@ public class ChooseDialog extends BaseDialog {
 
 
     XGetter xGetter, xGetterDownload;
+    String die_url = "HELLO";
     ProgressDialog progressDialog;
     XDownloader xDownloader;
+    boolean hd_sd_status;
     XModel current_Xmodel = null;
     Context context;
     Activity activity;
     ItemMovie itemMovie;
+    ArrayList<String> sdlinks, hdlinks;
+
 
 
     public ChooseDialog(Context context, Activity activity, Boolean condition, ItemMovie itemMovie) {
         super(context);
+        sdlinks = new ArrayList<>();
+        hdlinks = new ArrayList<>();
         this.condition=condition;
         this.context=context;
         this.activity=activity;
         this.itemMovie=itemMovie;
-
-
-
-
+        sdlinks = this.itemMovie.getMovieSDLink();
+        hdlinks = this.itemMovie.getMovieHDLink();
+        Collections.shuffle(sdlinks);
+        Collections.shuffle(hdlinks);
+        Log.i("hd_link", hdlinks.toString());
     }
 
     @Override
@@ -85,7 +107,6 @@ public class ChooseDialog extends BaseDialog {
                                 String cookie = model.getCookie();
                             }
                             doneExoPlaly(vidURL.get(0));
-//                            multipleQualityDialog(vidURL, true);
                         } else doneExoPlaly(null);
                     } else {
                         doneExoPlaly(vidURL.get(0));
@@ -94,7 +115,15 @@ public class ChooseDialog extends BaseDialog {
 
                 @Override
                 public void onError() {
+                    Toasty.error(context, context.getString(R.string.try_another_link), Toast.LENGTH_SHORT, true).show();
+                    if (hd_sd_status) {
+                        sentReport(" die movie hd url : [ " + die_url + " ]");
+                    } else {
+                        sentReport(" die movie sd url : [" + die_url + " ]");
+                    }
+                    letPlay(hd_sd_status);
                     progressDialog.dismiss();
+
                     doneExoPlaly(null);
                 }
             });
@@ -115,7 +144,6 @@ public class ChooseDialog extends BaseDialog {
                                 String cookie = model.getCookie();
                             }
                             doneDonwload(vidURL.get(0));
-//                            multipleQualityDialog(vidURL, false);
                         } else doneDonwload(null);
                     } else {
                         doneDonwload(vidURL.get(0));
@@ -124,6 +152,13 @@ public class ChooseDialog extends BaseDialog {
 
                 @Override
                 public void onError() {
+                    Toasty.error(context, context.getString(R.string.try_another_link), Toast.LENGTH_SHORT, true).show();
+                    if (hd_sd_status) {
+                        sentReport("die movie hd url : [" + die_url + "]");
+                    } else {
+                        sentReport("die movie sd url : [" + die_url + " ]");
+                    }
+                    letDownload(hd_sd_status);
                     progressDialog.dismiss();
                     doneDonwload(null);
                 }
@@ -143,37 +178,25 @@ public class ChooseDialog extends BaseDialog {
         if(condition){
             btn_hd.setText(R.string.hd_play);
             btn_sd.setText(R.string.sd_play);
-            btn_hd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    letPlay(itemMovie.getMovieHDLink());
-                    dismiss();
-                }
+            btn_hd.setOnClickListener(view -> {
+                letPlay(true);
+                dismiss();
             });
-            btn_sd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    letPlay(itemMovie.getMovieSDLink());
-                    dismiss();
-                }
+            btn_sd.setOnClickListener(view -> {
+                letPlay(false);
+                dismiss();
             });
         }
         else{
             btn_hd.setText(R.string.hd_download);
             btn_sd.setText(R.string.sd_download);
-            btn_hd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    letDownload(itemMovie.getMovieHDLink());
-                    dismiss();
-                }
+            btn_hd.setOnClickListener(view -> {
+                letDownload(true);
+                dismiss();
             });
-            btn_sd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    letDownload(itemMovie.getMovieSDLink());
-                    dismiss();
-                }
+            btn_sd.setOnClickListener(view -> {
+                letDownload(false);
+                dismiss();
             });
 
         }
@@ -205,19 +228,97 @@ public class ChooseDialog extends BaseDialog {
         }
     }
 
+    private void sentReport(String report) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
 
-    private void letPlay(String url) {
+        JsonObject jsObj = (JsonObject) new Gson().toJsonTree(new API());
+        jsObj.addProperty("method_name", "user_report");
+        jsObj.addProperty("post_id", itemMovie.getId());
+        jsObj.addProperty("report", report);
+        jsObj.addProperty("type", "movie");
+        params.put("data", API.toBase64(jsObj.toString()));
+
+        client.post(Constant.API_URL, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String result = new String(responseBody);
+                try {
+                    JSONObject mainJson = new JSONObject(result);
+                    JSONArray jsonArray = mainJson.getJSONArray(Constant.ARRAY_NAME);
+                    JSONObject objComment = jsonArray.getJSONObject(0);
+                    if (objComment.getString(Constant.SUCCESS).equals("1")) {
+                        String strMessage = objComment.getString(Constant.MSG);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            }
+
+        });
+    }
+
+    private void letPlay(boolean status) {
+        hd_sd_status = status;
         if (NetworkUtils.isConnected(context)) {
             progressDialog.show();
-            xGetter.find(url);
+            if (status) {
+                if (hdlinks.size() > 0) {
+                    die_url = hdlinks.get(hdlinks.size() - 1);
+                    xGetter.find(hdlinks.get(hdlinks.size() - 1));
+                    hdlinks.remove(hdlinks.size() - 1);
+                } else {
+                    Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
+                    progressDialog.dismiss();
+                }
+            } else {
+                if (sdlinks.size() > 0) {
+                    die_url = sdlinks.get(sdlinks.size() - 1);
+                    xGetter.find(sdlinks.get(sdlinks.size() - 1));
+                    sdlinks.remove(sdlinks.size() - 1);
+                } else {
+                    Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
+                    progressDialog.dismiss();
+                }
+            }
+
         }
     }
 
-    private void letDownload(String url) {
-
+    private void letDownload(boolean status) {
+        hd_sd_status = status;
         if (NetworkUtils.isConnected(context)) {
             progressDialog.show();
-            xGetterDownload.find(url);
+            if (status) {
+                if (hdlinks.size() > 0) {
+                    die_url = hdlinks.get(hdlinks.size() - 1);
+                    xGetterDownload.find(hdlinks.get(hdlinks.size() - 1));
+                    hdlinks.remove(hdlinks.size() - 1);
+                } else {
+                    Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
+                    progressDialog.dismiss();
+                }
+            } else {
+                if (sdlinks.size() > 0) {
+                    die_url = sdlinks.get(sdlinks.size() - 1);
+                    xGetterDownload.find(sdlinks.get(sdlinks.size() - 1));
+                    sdlinks.remove(sdlinks.size() - 1);
+                } else {
+                    Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
+                    progressDialog.dismiss();
+                }
+            }
+
+
         }
     }
 
