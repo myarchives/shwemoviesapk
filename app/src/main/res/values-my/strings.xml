@@ -12,9 +12,8 @@
     <string name="button_text_forgot_password">သင့်စကားဝှက်ကိုမေ့နေပါသလား</string>
     <string name="genre">အမျိုးအစား</string>
     <string name="home_category">တီဗီအမျိုးအစားများ</string>
-    <string name="home_latest_channel">နောက်ဆုံးလိုင်း</string>
+    <string name="home_latest_channel">ရုပ်သံလိုင်း</string>
     <string name="home_latest_movie">နောက်ဆုံးပေါ်ရုပ်ရှင်</string>
-    <string name="home_tv_series">တိုက်ရိုက်</string>
     <string name="intro_1_desc">အမျိုးအစား၊ နောက်ဆုံးနှင့်အထူးပြုလုပ်ထားသည့်ရုပ်သံလိုင်းသည်ပြင်ပကစားသမားတွင်ပါကစားသည်</string>
     <string name="menu_home">မူလ</string>
     <string name="menu_log_in">ဝင်မည်</string>
@@ -94,6 +93,7 @@
     <string name="sd_play">ပုံမှန် ကြည့်ရန်</string>
     <string name="hd_download">အကြည် ဒေါင်းရန်</string>
     <string name="sd_download">ပုံမှန် ဒေါင်းရန်</string>
+    <string name="home_tv_series">ဇာတ်လမ်းတွဲ</string>
     <string name="link_die_error">မရရှိနိုင်ပါ</string>
     <string name="try_another_link">အခြားလင့်ခ်တစ်ခုကိုကြိုးစားနေသည်</string>
 </resources>

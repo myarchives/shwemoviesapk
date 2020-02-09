@@ -1,5 +1,6 @@
 package com.shwe.xgetter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -443,6 +444,7 @@ public class XGetter {
                 });
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void youtube(String url) {
         if (check(youtube, url)) {
             new YouTubeExtractor(context) {
