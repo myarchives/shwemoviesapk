@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ixidev.gdpr.GDPRChecker;
-import com.shwe.fragment.CategoryFragment;
+import com.shwe.fragment.ChannelFragment;
 import com.shwe.fragment.DownloadedFragment;
 import com.shwe.fragment.FavouriteTabFragment;
 import com.shwe.fragment.HomeFragment;
@@ -96,8 +96,11 @@ public class MainActivity extends BaseActivity {
                         loadFrag(seriesFragment, getString(R.string.menu_tv_series), fragmentManager);
                         return true;
                     case R.id.menu_go_tv_channel:
-                        CategoryFragment categoryFragment = new CategoryFragment();
-                        loadFrag(categoryFragment, getString(R.string.menu_tv_channel), fragmentManager);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Id", "3");
+                        ChannelFragment channelFragment = new ChannelFragment();
+                        channelFragment.setArguments(bundle);
+                        loadFrag(channelFragment, getString(R.string.menu_channel), fragmentManager);
                         return true;
                     case R.id.menu_go_favourite:
                         FavouriteTabFragment favouriteTabFragment = new FavouriteTabFragment();
