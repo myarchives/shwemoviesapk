@@ -381,7 +381,6 @@ public class XGetter {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .build();
-        try {
             AndroidNetworking.get("https://drive.google.com/get_video_info?docid=" + url)
                     .setOkHttpClient(okHttpClient)
                     .build()
@@ -400,11 +399,6 @@ public class XGetter {
                             onComplete.onError();
                         }
                     });
-        } catch (Exception error) {
-            Log.i("Error", "Error");
-        }
-
-
     }
 
     private void twitter(final String url) {
