@@ -12,8 +12,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import com.htetznaing.xgetter.Model.XModel;
 import com.shwe.item.ItemMovie;
+import com.shwe.xgetter.Model.XModel;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

@@ -22,8 +22,6 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.htetznaing.xgetter.Model.XModel;
-import com.htetznaing.xgetter.XGetter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -34,6 +32,8 @@ import com.shwe.util.API;
 import com.shwe.util.Constant;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.XDownloader;
+import com.shwe.xgetter.Model.XModel;
+import com.shwe.xgetter.XGetter;
 
 import org.json.JSONArray;
 import org.json.JSONException;

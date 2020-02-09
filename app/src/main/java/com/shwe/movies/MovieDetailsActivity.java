@@ -35,8 +35,6 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.htetznaing.xgetter.Model.XModel;
-import com.htetznaing.xgetter.XGetter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -61,6 +59,8 @@ import com.shwe.util.IsRTL;
 import com.shwe.util.NetworkUtils;
 import com.shwe.util.RvOnClickListener;
 import com.shwe.util.XDownloader;
+import com.shwe.xgetter.Model.XModel;
+import com.shwe.xgetter.XGetter;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.Subscribe;
