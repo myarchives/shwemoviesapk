@@ -2,9 +2,6 @@ package com.shwe.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.shwe.movies.MyApplication;
-import com.shwe.movies.R;
-import com.shwe.util.API;
-import com.shwe.util.Constant;
-import com.shwe.util.NetworkUtils;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.shwe.movies.MyApplication;
+import com.shwe.movies.R;
+import com.shwe.util.API;
+import com.shwe.util.Constant;
+import com.shwe.util.NetworkUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

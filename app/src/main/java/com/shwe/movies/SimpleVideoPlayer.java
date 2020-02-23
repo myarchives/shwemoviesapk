@@ -8,15 +8,15 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -38,8 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-public class SimpleVideoPlayer extends AppCompatActivity {
+public class SimpleVideoPlayer extends BaseActivity {
     private int AFTER_PERMISSION_GRANTED = 0;
     private final int PLAY = 1;
     private final int DOWNLOAD = 2;

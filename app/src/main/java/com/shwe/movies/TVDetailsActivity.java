@@ -8,14 +8,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +23,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bosphere.fadingedgelayout.FadingEdgeLayout;
+import com.github.ornolfr.ratingview.RatingView;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.shwe.adapter.CommentAdapter;
 import com.shwe.adapter.HomeChannelAdapter;
 import com.shwe.cast.Casty;
@@ -52,16 +57,6 @@ import com.shwe.util.Events;
 import com.shwe.util.GlobalBus;
 import com.shwe.util.IsRTL;
 import com.shwe.util.NetworkUtils;
-import com.shwe.util.RvOnClickListener;
-import com.github.ornolfr.ratingview.RatingView;
-import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONArray;
@@ -102,7 +97,6 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
     FrameLayout frameLayout;
     boolean isFullScreen = false;
     boolean isPlayerIsYt = false;
-    private YouTubePlayer youTubePlayer;
     public boolean isYouTubePlayerFullScreen = false;
     boolean isFromNotification = false;
     LinearLayout mAdViewLayout;
@@ -119,7 +113,6 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
         setContentView(R.layout.activity_tv_details);
         IsRTL.ifSupported(this);
         GlobalBus.getBus().register(this);
-
         FadingEdgeLayout feRecent = findViewById(R.id.feRecent);
         IsRTL.changeShadowInRtl(this, feRecent);
         mAdViewLayout = findViewById(R.id.adView);
@@ -327,11 +320,6 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
                     fragmentManager.beginTransaction().replace(R.id.playerSection, exoPlayerFragment).commitAllowingStateLoss();
                 }
                 break;
-            case "youtube":
-                isPlayerIsYt = true;
-                String videoId = NetworkUtils.getVideoId(itemChannel.getChannelUrl());
-                playYoutube(videoId);
-                break;
             default:
                 EmbeddedImageFragment embeddedImageFragment = EmbeddedImageFragment.newInstance(itemChannel.getChannelUrl(), itemChannel.getImage(), true);
                 fragmentManager.beginTransaction().replace(R.id.playerSection, embeddedImageFragment).commitAllowingStateLoss();
@@ -342,15 +330,12 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
             homeChannelAdapter = new HomeChannelAdapter(TVDetailsActivity.this, mListItemRelated);
             rvRelated.setAdapter(homeChannelAdapter);
 
-            homeChannelAdapter.setOnItemClickListener(new RvOnClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    String tvId = mListItemRelated.get(position).getId();
-                    Intent intent = new Intent(TVDetailsActivity.this, TVDetailsActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("Id", tvId);
-                    startActivity(intent);
-                }
+            homeChannelAdapter.setOnItemClickListener(position -> {
+                String tvId = mListItemRelated.get(position).getId();
+                Intent intent = new Intent(TVDetailsActivity.this, TVDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("Id", tvId);
+                startActivity(intent);
             });
 
         } else {
@@ -364,75 +349,50 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
             textNoComment.setVisibility(View.VISIBLE);
         }
 
-        editTextComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        editTextComment.setOnClickListener(v -> showCommentBox());
 
-                    showCommentBox();
-
-            }
+        textComViewAll.setOnClickListener(v -> {
+            Intent intent = new Intent(TVDetailsActivity.this, AllCommentActivity.class);
+            intent.putExtra("postId", Id);
+            intent.putExtra("postType", "channel");
+            startActivity(intent);
         });
 
-        textComViewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TVDetailsActivity.this, AllCommentActivity.class);
-                intent.putExtra("postId", Id);
-                intent.putExtra("postType", "channel");
-                startActivity(intent);
-            }
+        textRelViewAll.setOnClickListener(v -> {
+            Intent intent = new Intent(TVDetailsActivity.this, RelatedAllChannelActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("postId", Id);
+            intent.putExtra("postCatId", itemChannel.getChannelCategoryId());
+            startActivity(intent);
         });
 
-        textRelViewAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TVDetailsActivity.this, RelatedAllChannelActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("postId", Id);
-                intent.putExtra("postCatId", itemChannel.getChannelCategoryId());
-                startActivity(intent);
-            }
-        });
+        ratingView.setOnClickListener(v -> DialogUtil.showRateDialog(TVDetailsActivity.this, TVDetailsActivity.this, Id, "channel"));
 
-        ratingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    DialogUtil.showRateDialog(TVDetailsActivity.this, TVDetailsActivity.this, Id, "channel");
+        textReport.setOnClickListener(v -> {
 
-            }
-        });
+            Bundle bundle = new Bundle();
+            bundle.putString("postId", Id);
+            bundle.putString("postType", "channel");
+            ReportFragment reportFragment = new ReportFragment();
+            reportFragment.setArguments(bundle);
+            reportFragment.show(getSupportFragmentManager(), reportFragment.getTag());
 
-        textReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("postId", Id);
-                    bundle.putString("postType", "channel");
-                    ReportFragment reportFragment = new ReportFragment();
-                    reportFragment.setArguments(bundle);
-                    reportFragment.show(getSupportFragmentManager(), reportFragment.getTag());
-
-            }
         });
 
         isFavourite();
-        imageFav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContentValues fav = new ContentValues();
-                if (databaseHelper.getFavouriteById(Id, DatabaseHelper.TABLE_CHANNEL)) {
-                    databaseHelper.removeFavouriteById(Id, DatabaseHelper.TABLE_CHANNEL);
-                    imageFav.setImageResource(R.drawable.ic_fav);
-                    showToast(getString(R.string.favourite_remove));
-                } else {
-                    fav.put(DatabaseHelper.CHANNEL_ID, Id);
-                    fav.put(DatabaseHelper.CHANNEL_TITLE, itemChannel.getChannelName());
-                    fav.put(DatabaseHelper.CHANNEL_POSTER, itemChannel.getImage());
-                    databaseHelper.addFavourite(DatabaseHelper.TABLE_CHANNEL, fav, null);
-                    imageFav.setImageResource(R.drawable.ic_fav_hover);
-                    showToast(getString(R.string.favourite_add));
-                }
+        imageFav.setOnClickListener(v -> {
+            ContentValues fav = new ContentValues();
+            if (databaseHelper.getFavouriteById(Id, DatabaseHelper.TABLE_CHANNEL)) {
+                databaseHelper.removeFavouriteById(Id, DatabaseHelper.TABLE_CHANNEL);
+                imageFav.setImageResource(R.drawable.ic_fav);
+                showToast(getString(R.string.favourite_remove));
+            } else {
+                fav.put(DatabaseHelper.CHANNEL_ID, Id);
+                fav.put(DatabaseHelper.CHANNEL_TITLE, itemChannel.getChannelName());
+                fav.put(DatabaseHelper.CHANNEL_POSTER, itemChannel.getImage());
+                databaseHelper.addFavourite(DatabaseHelper.TABLE_CHANNEL, fav, null);
+                imageFav.setImageResource(R.drawable.ic_fav_hover);
+                showToast(getString(R.string.favourite_add));
             }
         });
 
@@ -450,11 +410,6 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
                     case "live_url":
                         ExoPlayerFragment exoPlayerFragment = ExoPlayerFragment.newInstance(itemChannel.getChannelUrl());
                         fragmentManager.beginTransaction().replace(R.id.playerSection, exoPlayerFragment).commitAllowingStateLoss();
-                        break;
-                    case "youtube":
-                        isPlayerIsYt = true;
-                        String videoId = NetworkUtils.getVideoId(itemChannel.getChannelUrl());
-                        playYoutube(videoId);
                         break;
                     default:
                         EmbeddedImageFragment embeddedImageFragment = EmbeddedImageFragment.newInstance(itemChannel.getChannelUrl(), itemChannel.getImage(), true);
@@ -535,17 +490,14 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
         final EditText edt_comment = mDialog.findViewById(R.id.edt_comment);
         final ImageView img_sent = mDialog.findViewById(R.id.image_sent);
         mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-        img_sent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String comment = edt_comment.getText().toString();
-                if (!comment.isEmpty()) {
-                    if (NetworkUtils.isConnected(TVDetailsActivity.this)) {
-                        sentComment(comment);
-                        mDialog.dismiss();
-                    } else {
-                        showToast(getString(R.string.conne_msg1));
-                    }
+        img_sent.setOnClickListener(v -> {
+            String comment = edt_comment.getText().toString();
+            if (!comment.isEmpty()) {
+                if (NetworkUtils.isConnected(TVDetailsActivity.this)) {
+                    sentComment(comment);
+                    mDialog.dismiss();
+                } else {
+                    showToast(getString(R.string.conne_msg1));
                 }
             }
         });
@@ -682,8 +634,8 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
     @Override
     public void onBackPressed() {
         if (isPlayerIsYt) {
-            if (isYouTubePlayerFullScreen && youTubePlayer != null) {
-                youTubePlayer.setFullscreen(false);
+            if (isYouTubePlayerFullScreen) {
+
             } else {
                 if (isFromNotification) {
                     Intent intent = new Intent(TVDetailsActivity.this, MainActivity.class);
@@ -710,35 +662,6 @@ public class TVDetailsActivity extends BaseActivity implements RateDialog.RateDi
                 }
             }
         }
-    }
-
-    private void playYoutube(String videoId) {
-        YouTubePlayerSupportFragment youTubePlayerFragment = YouTubePlayerSupportFragment.newInstance();
-        fragmentManager.beginTransaction().replace(R.id.playerSection, youTubePlayerFragment).commitAllowingStateLoss();
-        youTubePlayerFragment.initialize(getString(R.string.youtube_api_key), new YouTubePlayer.OnInitializedListener() {
-
-            @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
-                if (!wasRestored) {
-                    youTubePlayer = player;
-                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-                    youTubePlayer.loadVideo(videoId);
-                    youTubePlayer.play();
-                    youTubePlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
-                        @Override
-                        public void onFullscreen(boolean _isFullScreen) {
-                            isYouTubePlayerFullScreen = _isFullScreen;
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-                String errorMessage = youTubeInitializationResult.toString();
-                Log.d("errorMessage:", errorMessage);
-            }
-        });
     }
 
     @Override

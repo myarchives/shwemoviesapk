@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
-import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import androidx.multidex.MultiDex;
+
+import com.facebook.ads.AudienceNetworkAds;
 import com.onesignal.OSNotificationOpenResult;
 import com.onesignal.OneSignal;
 
@@ -37,6 +39,8 @@ public class MyApplication extends Application {
                 .setNotificationOpenedHandler(new ExampleNotificationOpenedHandler())
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .init();
+
+        AudienceNetworkAds.initialize(this);
 
         mInstance = this;
     }

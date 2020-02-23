@@ -1,13 +1,14 @@
 package com.shwe.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.shwe.item.ItemSeries;
@@ -43,12 +44,7 @@ public class HomeSeriesAdapter extends RecyclerView.Adapter<HomeSeriesAdapter.It
         holder.text.setText(singleItem.getSeriesName());
         Picasso.get().load(singleItem.getSeriesPoster()).placeholder(R.drawable.place_holder_movie).into(holder.image);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopUpAds.showInterstitialAds(mContext, holder.getAdapterPosition(), clickListener);
-            }
-        });
+        holder.cardView.setOnClickListener(v -> PopUpAds.showInterstitialAds(mContext, holder.getAdapterPosition(), clickListener));
     }
 
     @Override

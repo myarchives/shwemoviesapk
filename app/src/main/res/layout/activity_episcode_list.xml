@@ -29,7 +29,7 @@
             android:textSize="18dp" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/episcode_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

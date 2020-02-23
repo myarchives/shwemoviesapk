@@ -5,10 +5,11 @@ import android.content.Context;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.view.Display;
 import android.view.WindowManager;
+
+import androidx.annotation.RequiresPermission;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

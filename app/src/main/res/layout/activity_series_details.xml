@@ -69,7 +69,7 @@
             android:layout_height="200dp" />
 
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
 
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="vertical">
 
-                    <android.support.v7.widget.CardView
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/click_play"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -210,9 +210,9 @@
                         </LinearLayout>
 
 
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/season_rv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -265,7 +265,7 @@
                                 app:fel_edge="right"
                                 app:fel_size_right="@dimen/shadow_size">
 
-                                <android.support.v7.widget.RecyclerView
+                                <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rv_episode"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
@@ -389,7 +389,7 @@
                                 app:fel_edge="right"
                                 app:fel_size_right="@dimen/shadow_size">
 
-                                <android.support.v7.widget.RecyclerView
+                                <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rv_related"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
@@ -504,7 +504,7 @@
                         android:textStyle="bold"
                         android:visibility="gone" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -514,7 +514,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
     <LinearLayout

@@ -5,9 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.view.View;
 import android.view.Window;
+
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
 public class BaseDialog extends Dialog {
     private View decorView;

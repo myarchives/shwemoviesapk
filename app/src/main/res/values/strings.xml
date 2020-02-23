@@ -150,4 +150,5 @@
     <string name="sd_download">SD Download</string>
     <string name="link_die_error">Not Availabe</string>
     <string name="try_another_link">Try Another Link</string>
+    <string name="menu_channel">channel</string>
 </resources>

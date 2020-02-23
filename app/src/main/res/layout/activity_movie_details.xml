@@ -283,7 +283,7 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -396,7 +396,7 @@
                                 app:fel_edge="right"
                                 app:fel_size_right="@dimen/shadow_size">
 
-                                <android.support.v7.widget.RecyclerView
+                                <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/rv_related"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content" />
@@ -511,7 +511,7 @@
                         android:textStyle="bold"
                         android:visibility="gone" />
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -521,7 +521,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
     <LinearLayout
