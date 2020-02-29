@@ -77,7 +77,8 @@ public class PopUpAds {
             Constant.AD_COUNT += 1;
             if (Constant.AD_COUNT == Constant.AD_COUNT_SHOW) {
                 final String TAG = PopUpAds.class.getSimpleName();
-                final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, "2482238635323765_2568780046669623");
+                Constant.AD_COUNT = 0;
+                final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, Constant.adPlacementId);
 
                 // Set listeners for the Interstitial Ad
                 interstitialAd.setAdListener(new InterstitialAdListener() {
@@ -91,10 +92,12 @@ public class PopUpAds {
                     public void onInterstitialDismissed(Ad ad) {
                         // Interstitial dismissed callback
                         Log.e(TAG, "Interstitial ad dismissed.");
+                        clickListener.onItemClick(adapterPosition);
                     }
 
                     @Override
                     public void onError(Ad ad, AdError adError) {
+                        clickListener.onItemClick(adapterPosition);
                         // Ad error callback
                         Log.e(TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
                     }
@@ -111,12 +114,14 @@ public class PopUpAds {
                     public void onAdClicked(Ad ad) {
                         // Ad clicked callback
                         Log.d(TAG, "Interstitial ad clicked!");
+
                     }
 
                     @Override
                     public void onLoggingImpression(Ad ad) {
                         // Ad impression logged callback
                         Log.d(TAG, "Interstitial ad impression logged!");
+
                     }
                 });
 

@@ -30,7 +30,6 @@ import com.shwe.util.API;
 import com.shwe.util.Constant;
 import com.shwe.util.EndlessRecyclerViewScrollListener;
 import com.shwe.util.NetworkUtils;
-import com.shwe.util.RvOnClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -174,26 +173,24 @@ public class GenreFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
 
-            adapter.setOnItemClickListener(new RvOnClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    String genreName = mListItem.get(position).getGenreName();
-                    String genreId = mListItem.get(position).getGenreId();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("Id", genreId);
-                    bundle.putBoolean("isLanguage", false);
+            adapter.setOnItemClickListener(position -> {
+                String genreName = mListItem.get(position).getGenreName();
+                String genreId = mListItem.get(position).getGenreId();
+                Bundle bundle = new Bundle();
+                bundle.putString("Id", genreId);
+                bundle.putBoolean("isLanguage", false);
 
-                    FragmentManager fm = requireActivity().getSupportFragmentManager();
-                    MovieFragment movieFragment = new MovieFragment();
-                    movieFragment.setArguments(bundle);
-                    assert fm != null;
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.hide(GenreFragment.this);
-                    ft.add(R.id.Container, movieFragment, genreName);
-                    ft.addToBackStack(genreName);
-                    ft.commitAllowingStateLoss();
-                    ((MainActivity) requireActivity()).setToolbarTitle(genreName);
-                }
+                FragmentManager fm = requireActivity().getSupportFragmentManager();
+                MovieFragment movieFragment = new MovieFragment();
+                movieFragment.setArguments(bundle);
+                assert fm != null;
+                FragmentTransaction ft = fm.beginTransaction();
+//                ft.hide(GenreFragment.this);
+                ft.add(R.id.Container, movieFragment, genreName);
+                ft.addToBackStack(genreName);
+                ft.commitAllowingStateLoss();
+                ((MainActivity) requireActivity()).setToolbarTitle(genreName);
+
             });
         }
     }

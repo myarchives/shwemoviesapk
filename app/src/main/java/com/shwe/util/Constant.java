@@ -116,7 +116,7 @@ public class Constant implements Serializable {
     public static int AD_COUNT_SHOW;
 
     public static boolean isBanner = false, isInterstitial = false;
-    public static String adMobBannerId, adMobInterstitialId, adMobPublisherId;
+    public static String adMobBannerId, adMobInterstitialId, adMobPublisherId, adPlacementId;
 
 
 }

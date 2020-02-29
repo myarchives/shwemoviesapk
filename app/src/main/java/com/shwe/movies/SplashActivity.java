@@ -84,8 +84,10 @@ public class SplashActivity extends BaseActivity {
                         Constant.isInterstitial = objJson.getBoolean("interstital_ad");
                         Constant.adMobBannerId = objJson.getString("banner_ad_id");
                         Constant.adMobInterstitialId = objJson.getString("interstital_ad_id");
+                        Constant.adPlacementId = objJson.getString("placement_id");
                         Constant.adMobPublisherId = objJson.getString("publisher_id");
                         Constant.AD_COUNT_SHOW = objJson.getInt("interstital_ad_click");
+
                     }
 
                 } catch (JSONException e) {

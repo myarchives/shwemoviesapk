@@ -188,7 +188,7 @@ public class LanguageFragment extends Fragment {
                     movieFragment.setArguments(bundle);
                     assert fm != null;
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.hide(LanguageFragment.this);
+//                    ft.hide(LanguageFragment.this);
                     ft.add(R.id.Container, movieFragment, languageName);
                     ft.addToBackStack(languageName);
                     ft.commitAllowingStateLoss();
