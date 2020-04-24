@@ -19,6 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import cz.msebera.android.httpclient.Header;
 
 
@@ -79,14 +82,37 @@ public class SplashActivity extends BaseActivity {
                     if (objJson.has(Constant.STATUS)) {
                         Toast.makeText(SplashActivity.this, getString(R.string.something_went), Toast.LENGTH_SHORT).show();
                     } else {
+                        ArrayList<Integer> arrayList = new ArrayList<>();
+                        arrayList.add(1);
+                        arrayList.add(2);
                         String packageName = objJson.getString("package_name");
                         Constant.isBanner = objJson.getBoolean("banner_ad");
+                        Constant.isFaceBookBanner = objJson.getBoolean("facebook_banner_ad");
+                        Constant.isFaceBookInterstitial = objJson.getBoolean("facebook_Interstitial_ad");
                         Constant.isInterstitial = objJson.getBoolean("interstital_ad");
                         Constant.adMobBannerId = objJson.getString("banner_ad_id");
                         Constant.adMobInterstitialId = objJson.getString("interstital_ad_id");
                         Constant.adPlacementId = objJson.getString("placement_id");
                         Constant.adMobPublisherId = objJson.getString("publisher_id");
                         Constant.AD_COUNT_SHOW = objJson.getInt("interstital_ad_click");
+                        if(Constant.isBanner && Constant.isFaceBookBanner){
+                            Collections.shuffle(arrayList);
+                            Constant.statusBannerAds = arrayList.get(0);
+
+                        }else if(Constant.isFaceBookBanner){
+                            Constant.statusBannerAds = 2;
+                        }else if(Constant.isBanner){
+                            Constant.statusBannerAds = 1;
+                        }
+                        if(Constant.isFaceBookInterstitial && Constant.isInterstitial){
+                            Collections.shuffle(arrayList);
+                            Constant.statusInterstitialAds = arrayList.get(0);
+
+                        }else if(Constant.isFaceBookInterstitial){
+                            Constant.statusInterstitialAds = 2;
+                        }else if(Constant.isInterstitial){
+                            Constant.statusInterstitialAds = 1;
+                        }
 
                     }
 

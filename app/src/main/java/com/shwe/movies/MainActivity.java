@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -36,6 +37,8 @@ import com.shwe.fragment.ChannelFragment;
 import com.shwe.fragment.DownloadedFragment;
 import com.shwe.fragment.FavouriteTabFragment;
 import com.shwe.fragment.HomeFragment;
+import com.shwe.fragment.MovieAllFragment;
+import com.shwe.fragment.MovieFragment;
 import com.shwe.fragment.MovieTabFragment;
 import com.shwe.fragment.SeriesFragment;
 import com.shwe.fragment.SettingFragment;
@@ -58,6 +61,7 @@ public class MainActivity extends BaseActivity {
 
     private DrawerLayout drawerLayout;
     NavigationView navigationView;
+    BottomNavigationView bottomNavigationView;
     Toolbar toolbar;
     private FragmentManager fragmentManager;
     boolean doubleBackToExitPressedOnce = false;
@@ -71,6 +75,7 @@ public class MainActivity extends BaseActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navigationView = findViewById(R.id.navigation_view);
+        bottomNavigationView =(BottomNavigationView)findViewById(R.id.btn_nav);
         drawerLayout = findViewById(R.id.drawer_layout);
         fragmentManager = getSupportFragmentManager();
         myApplication = MyApplication.getInstance();
@@ -127,6 +132,34 @@ public class MainActivity extends BaseActivity {
                     return true;
                 default:
                     return true;
+            }
+        });
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.menu_nav_home:
+                        HomeFragment homeFragment = new HomeFragment();
+                        loadFrag(homeFragment, getString(R.string.menu_home), fragmentManager);
+                        return true;
+                    case R.id.menu_nav_movie:
+                        MovieAllFragment movieFragment = new MovieAllFragment();
+                        loadFrag(movieFragment, getString(R.string.menu_movie), fragmentManager);
+                        return true;
+                    case R.id.menu_nav_series:
+                        SeriesFragment highLightCategoryFragment = new SeriesFragment();
+                        loadFrag(highLightCategoryFragment, getString(R.string.menu_tv_series), fragmentManager);
+                        return true;
+                    case R.id.menu_nav_channel:
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Id", "3");
+                        ChannelFragment channelFragment = new ChannelFragment();
+                        channelFragment.setArguments(bundle);
+                        loadFrag(channelFragment, getString(R.string.menu_channel), fragmentManager);
+                        return true;
+                }
+                return true;
             }
         });
 

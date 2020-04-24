@@ -60,12 +60,7 @@ public class SeriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.text.setText(singleItem.getSeriesName());
             Picasso.get().load(singleItem.getSeriesPoster()).placeholder(R.drawable.place_holder_movie).into(holder.image);
 
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopUpAds.showInterstitialAds(mContext, holder.getAdapterPosition(), clickListener);
-                }
-            });
+            holder.cardView.setOnClickListener(v -> PopUpAds.showInterstitialAds(mContext, holder.getAdapterPosition(), clickListener));
         }
     }
 

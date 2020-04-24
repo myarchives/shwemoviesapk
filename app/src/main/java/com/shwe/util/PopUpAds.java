@@ -17,16 +17,29 @@ import com.ixidev.gdpr.GDPRChecker;
 public class PopUpAds {
     public static int a = 0;
     public static void showInterstitialAds(Context context, int adapterPosition, RvOnClickListener clickListener) {
-        a++;
-        if (a % 2 == 0) {
-            Log.i("TEST ADS ROUND", "GOOGLE");
-            showGoogleInterstitialAds(context, adapterPosition, clickListener);
 
-        } else {
-            Log.i("TEST ADS ROUND", "FACEBOOK");
-            showFBInterstitialAds(context, adapterPosition, clickListener);
-
+        switch (Constant.statusInterstitialAds){
+            case 1 : showGoogleInterstitialAds(context,adapterPosition,clickListener);break;
+            case 2 : showFBInterstitialAds(context, adapterPosition,clickListener);break;
         }
+
+//        if (Constant.isFaceBookInterstitial && Constant.isInterstitial) {
+//            a++;
+//            if (a % 2 == 0) {
+//                Log.i("TEST ADS ROUND", "GOOGLE");
+//                showGoogleInterstitialAds(context, adapterPosition, clickListener);
+//
+//            } else {
+//                Log.i("TEST ADS ROUND", "FACEBOOK");
+//                showFBInterstitialAds(context, adapterPosition, clickListener);
+//
+//            }
+//        }else if(Constant.isInterstitial){
+//            showGoogleInterstitialAds(context,adapterPosition,clickListener);
+//        }
+//        else if (Constant.isFaceBookInterstitial){
+//            showFBInterstitialAds(context,adapterPosition,clickListener);
+//        }
     }
 
     public static void showGoogleInterstitialAds(Context context, int adapterPosition, RvOnClickListener clickListener) {
@@ -73,7 +86,7 @@ public class PopUpAds {
     }
 
     public static void showFBInterstitialAds(Context context, int adapterPosition, RvOnClickListener clickListener) {
-        if (Constant.isInterstitial) {
+        if (Constant.isFaceBookInterstitial) {
             Constant.AD_COUNT += 1;
             if (Constant.AD_COUNT == Constant.AD_COUNT_SHOW) {
                 final String TAG = PopUpAds.class.getSimpleName();

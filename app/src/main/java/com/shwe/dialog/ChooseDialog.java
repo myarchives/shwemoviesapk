@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -42,6 +43,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -61,23 +63,37 @@ public class ChooseDialog extends BaseDialog {
     Context context;
     Activity activity;
     ItemMovie itemMovie;
-    ArrayList<String> sdlinks, hdlinks;
+    LinkedList<String> sdlinklists, hdlinklists;
 
+    public LinkedList<String> getSdlinklists() {
+        return sdlinklists;
+    }
 
+    public void setSdlinklists(LinkedList<String> sdlinklists) {
+        this.sdlinklists = sdlinklists;
+    }
+
+    public LinkedList<String> getHdlinklists() {
+        return hdlinklists;
+    }
+
+    public void setHdlinklists(LinkedList<String> hdlinklists) {
+        this.hdlinklists = hdlinklists;
+    }
 
     public ChooseDialog(Context context, Activity activity, Boolean condition, ItemMovie itemMovie) {
         super(context);
-        sdlinks = new ArrayList<>();
-        hdlinks = new ArrayList<>();
+        sdlinklists = new LinkedList<>();
+        hdlinklists = new LinkedList<>();
         this.condition=condition;
         this.context=context;
         this.activity=activity;
         this.itemMovie=itemMovie;
-        sdlinks = this.itemMovie.getMovieSDLink();
-        hdlinks = this.itemMovie.getMovieHDLink();
-        Collections.shuffle(sdlinks);
-        Collections.shuffle(hdlinks);
-        Log.i("hd_link", hdlinks.toString());
+        sdlinklists.addAll(this.itemMovie.getMovieSDLink());
+        hdlinklists.addAll(this.itemMovie.getMovieHDLink());
+        Collections.shuffle(sdlinklists);
+        Collections.shuffle(hdlinklists);
+        Log.i("hd_link", hdlinklists.toString());
     }
 
     @Override
@@ -89,6 +105,8 @@ public class ChooseDialog extends BaseDialog {
         btn_sd=findViewById(R.id.btn_sd);
 
         title.setText(R.string.choose_one);
+
+
 
         if (NetworkUtils.isConnected(context)) {
             progressDialog = new ProgressDialog(context);
@@ -204,6 +222,17 @@ public class ChooseDialog extends BaseDialog {
 
     }
 
+    @Override
+    public void setOnShowListener(@Nullable OnShowListener listener) {
+        super.setOnShowListener(listener);
+        Toast.makeText(getContext(),"HELLO Show",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setOnDismissListener(@Nullable OnDismissListener listener) {
+        super.setOnDismissListener(listener);
+        Toast.makeText(getContext(),"HELLO Dimmis",Toast.LENGTH_LONG).show();
+    }
 
     private void doneExoPlaly(XModel xModel) {
         String url = null;
@@ -273,22 +302,23 @@ public class ChooseDialog extends BaseDialog {
         if (NetworkUtils.isConnected(context)) {
             progressDialog.show();
             if (status) {
-                if (hdlinks.size() > 0) {
-                    die_url = hdlinks.get(hdlinks.size() - 1);
-                    xGetter.find(hdlinks.get(hdlinks.size() - 1));
-                    hdlinks.remove(hdlinks.size() - 1);
+                if (hdlinklists.size() > 0) {
+                    die_url = hdlinklists.get(hdlinklists.size() - 1);
+                    xGetter.find(hdlinklists.get(hdlinklists.size() - 1));
+                    hdlinklists.remove(hdlinklists.size() - 1);
                 } else {
                     Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
                     progressDialog.dismiss();
                 }
             } else {
-                if (sdlinks.size() > 0) {
-                    die_url = sdlinks.get(sdlinks.size() - 1);
-                    xGetter.find(sdlinks.get(sdlinks.size() - 1));
-                    sdlinks.remove(sdlinks.size() - 1);
+                if (sdlinklists.size() > 0) {
+                    die_url = sdlinklists.get(sdlinklists.size() - 1);
+                    xGetter.find(sdlinklists.get(sdlinklists.size() - 1));
+                    sdlinklists.remove(sdlinklists.size() - 1);
                 } else {
                     Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
                     progressDialog.dismiss();
+
                 }
             }
 
@@ -300,22 +330,24 @@ public class ChooseDialog extends BaseDialog {
         if (NetworkUtils.isConnected(context)) {
             progressDialog.show();
             if (status) {
-                if (hdlinks.size() > 0) {
-                    die_url = hdlinks.get(hdlinks.size() - 1);
-                    xGetterDownload.find(hdlinks.get(hdlinks.size() - 1));
-                    hdlinks.remove(hdlinks.size() - 1);
+                if (hdlinklists.size() > 0) {
+                    die_url = hdlinklists.get(hdlinklists.size() - 1);
+                    xGetterDownload.find(hdlinklists.get(hdlinklists.size() - 1));
+                    hdlinklists.remove(hdlinklists.size() - 1);
                 } else {
                     Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
                     progressDialog.dismiss();
+
                 }
             } else {
-                if (sdlinks.size() > 0) {
-                    die_url = sdlinks.get(sdlinks.size() - 1);
-                    xGetterDownload.find(sdlinks.get(sdlinks.size() - 1));
-                    sdlinks.remove(sdlinks.size() - 1);
+                if (sdlinklists.size() > 0) {
+                    die_url = sdlinklists.get(sdlinklists.size() - 1);
+                    xGetterDownload.find(sdlinklists.get(sdlinklists.size() - 1));
+                    sdlinklists.remove(sdlinklists.size() - 1);
                 } else {
                     Toasty.error(context, context.getString(R.string.link_die_error), Toast.LENGTH_SHORT, true).show();
                     progressDialog.dismiss();
+
                 }
             }
 

@@ -34,8 +34,8 @@
     <!--Navigation drawer -->
     <string name="menu_home">Home</string>
     <string name="menu_movie">Movies</string>
-    <string name="menu_tv_series">TV Series</string>
-    <string name="menu_tv_channel">TV Channel</string>
+    <string name="menu_tv_series">Series</string>
+    <string name="menu_tv_channel">TV</string>
     <string name="menu_favourite">Favourite</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_setting">Settings</string>

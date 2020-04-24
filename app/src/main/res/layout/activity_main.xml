@@ -29,6 +29,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal" />
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            app:itemTextColor="@color/bottmnav_state_list"
+            app:itemIconTint="@color/bottmnav_state_list"
+            app:elevation="18dp"
+            app:itemBackground="@color/colorPrimary"
+            app:menu="@menu/menu_bottom_nav"
+            android:id="@+id/btn_nav"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            app:labelVisibilityMode="labeled"
+            android:layout_height="50dp"/>
 
 
     </RelativeLayout>
@@ -44,4 +55,6 @@
         app:itemIconTint="@color/state_list"
         app:itemTextColor="@color/state_list"
         app:menu="@menu/menu_drawer" />
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

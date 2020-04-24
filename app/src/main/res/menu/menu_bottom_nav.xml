@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/menu_nav_home"
+            android:checked="true"
+            android:icon="@drawable/ic_home"
+            android:title="@string/menu_home" />
+
+        <item
+            android:id="@+id/menu_nav_movie"
+            android:checked="false"
+            android:icon="@drawable/ic_movie"
+            android:title="@string/menu_movie" />
+
+        <item
+            android:id="@+id/menu_nav_series"
+            android:checked="false"
+            android:icon="@drawable/ic_series"
+            android:title="@string/menu_tv_series" />
+
+        <item
+            android:id="@+id/menu_nav_channel"
+            android:checked="false"
+            android:icon="@drawable/ic_channel"
+            android:title="@string/menu_tv_channel" />
+
+
+    </group>
+</menu>

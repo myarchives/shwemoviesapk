@@ -96,4 +96,6 @@
     <string name="home_tv_series">ဇာတ်လမ်းတွဲ</string>
     <string name="link_die_error">မရရှိနိုင်ပါ</string>
     <string name="try_another_link">အခြားလင့်ခ်တစ်ခုကိုကြိုးစားနေသည်</string>
+    <string name="menu_tv_channel">တီဗီ</string>
+    <string name="menu_tv_series">စီးရီ:</string>
 </resources>
