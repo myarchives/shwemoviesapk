@@ -30,9 +30,9 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.htetznaing.xgetter.Model.XModel;
 import com.shwe.item.ItemMovie;
 import com.shwe.util.XDownloader;
-import com.shwe.xgetter.Model.XModel;
 
 import java.util.ArrayList;
 import java.util.List;

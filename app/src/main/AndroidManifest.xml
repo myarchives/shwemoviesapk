@@ -56,10 +56,6 @@
             android:name=".RelatedAllMovieActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SimpleVideoPlayer"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="landscape" />
-        <activity
             android:name=".RelatedAllChannelActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -107,6 +103,10 @@
         <activity
             android:name="com.shwe.cast.ExpandedControlsActivity"
             android:theme="@style/Theme.CastVideosDark" />
+        <activity
+            android:name=".SimpleVideoPlayer"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

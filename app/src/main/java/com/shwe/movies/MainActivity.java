@@ -38,8 +38,6 @@ import com.shwe.fragment.DownloadedFragment;
 import com.shwe.fragment.FavouriteTabFragment;
 import com.shwe.fragment.HomeFragment;
 import com.shwe.fragment.MovieAllFragment;
-import com.shwe.fragment.MovieFragment;
-import com.shwe.fragment.MovieTabFragment;
 import com.shwe.fragment.SeriesFragment;
 import com.shwe.fragment.SettingFragment;
 import com.shwe.util.API;
@@ -104,7 +102,7 @@ public class MainActivity extends BaseActivity {
                     loadFrag(homeFragment1, getString(R.string.menu_home), fragmentManager);
                     return true;
                 case R.id.menu_go_movie:
-                    MovieTabFragment movieTabFragment = new MovieTabFragment();
+                    MovieAllFragment movieTabFragment = new MovieAllFragment();
                     loadFrag(movieTabFragment, getString(R.string.menu_movie), fragmentManager);
                     return true;
                 case R.id.menu_go_tv_series:

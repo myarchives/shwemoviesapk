@@ -2,19 +2,18 @@ package com.shwe.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.shwe.dialog.ChooseDialog;
+import com.shwe.dialog.ChooseSeriesDialog;
 import com.shwe.item.ItemEpisode;
 import com.shwe.item.ItemMovie;
 import com.shwe.movies.R;
@@ -53,8 +52,7 @@ public class EpiscodeListAdapter extends RecyclerView.Adapter<EpiscodeListAdapte
         itemMovie.setMovieHDLink(current.getEpisodeHDLink());
 
         holder.btn_play.setOnClickListener(view -> {
-            ChooseDialog chooseDialog = new ChooseDialog(context, activity, true, itemMovie);
-            chooseDialog.show();
+            ChooseSeriesDialog chooseDialog = new ChooseSeriesDialog(context, activity, true, itemMovie);
         });
         holder.btn_download.setOnClickListener(view -> {
             ChooseDialog chooseDialog = new ChooseDialog(context, activity, false, itemMovie);
