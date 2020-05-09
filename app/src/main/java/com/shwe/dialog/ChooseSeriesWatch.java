@@ -53,7 +53,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ChooseSeriesDialog {
+public class ChooseSeriesWatch {
     TextView title, btn_hd, btn_sd;
     Boolean condition;//true for play and false for download
 
@@ -69,7 +69,7 @@ public class ChooseSeriesDialog {
     ItemMovie itemMovie;
     LinkedList<String> sdlinklists, hdlinklists;
 
-    public ChooseSeriesDialog(Context context, Activity activity, Boolean condition, ItemMovie itemMovie) {
+    public ChooseSeriesWatch(Context context, Activity activity, Boolean condition, ItemMovie itemMovie) {
         sdlinklists = new LinkedList<>();
         hdlinklists = new LinkedList<>();
         this.condition = condition;
@@ -186,51 +186,15 @@ public class ChooseSeriesDialog {
         if (xModel != null) {
             url = xModel.getUrl();
         }
-        downloadDialog(xModel);
+        Intent intent = new Intent(context, SimpleVideoPlayer.class);
+        intent.putExtra("url", xModel.getUrl());
+        //If google drive you need to put cookie
+        if (xModel.getCookie() != null) {
+            intent.putExtra("cookie", xModel.getCookie());
+        }
+        activity.startActivity(intent);
     }
 
-
-    private void watchDialog(XModel xModel) {
-        MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(context);
-        builder.setTitle("Notice!")
-                .setDescription("Choose your player")
-                .setStyle(Style.HEADER_WITH_ICON)
-                .setIcon(R.drawable.right)
-                .withDialogAnimation(true)
-                .setPositiveText("Simple Exoplayer")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                            String url = "https://jwplayerx.blogspot.com/?url=" + encode(xModel.getUrl()) + "&title=" + encode("Test") + "&thumb=" + encode("https://previews.customer.envatousercontent.com/files/279005072/inlinepreview.jpg");
-//                        Intent intent = new Intent(getApplicationContext(), JWPlayer.class);
-//                        intent.putExtra("url", url);
-//                        intent.putExtra("title","Hello World");
-                        Intent intent = new Intent(context, SimpleVideoPlayer.class);
-                        intent.putExtra("url", xModel.getUrl());
-                        //If google drive you need to put cookie
-                        if (xModel.getCookie() != null) {
-                            intent.putExtra("cookie", xModel.getCookie());
-                        }
-                        activity.startActivity(intent);
-                    }
-                })
-                .setNegativeText("PIP")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        watchVideo(xModel);
-                    }
-                })
-                .setNeutralText("MXPlayer")
-                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-//                        openWithMXPlayer(xModel);
-                    }
-                });
-        MaterialStyledDialog dialog = builder.build();
-        dialog.show();
-    }
 
     private void downloadDialog(XModel xModel) {
         MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(context);
