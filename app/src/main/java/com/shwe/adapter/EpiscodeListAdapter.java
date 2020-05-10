@@ -5,23 +5,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.shwe.dialog.ChooseSeriesDialog;
-import com.shwe.dialog.ChooseSeriesWatch;
 import com.shwe.item.ItemEpisode;
-import com.shwe.item.ItemMovie;
 import com.shwe.movies.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class EpiscodeListAdapter extends RecyclerView.Adapter<EpiscodeListAdapter.MyViewHolder> {
+public class EpiscodeListAdapter extends RecyclerView.Adapter<EpisodeItemViewHolder> {
     Context context;
     ArrayList<ItemEpisode> ary;
     LayoutInflater layoutInflater;
@@ -36,30 +29,15 @@ public class EpiscodeListAdapter extends RecyclerView.Adapter<EpiscodeListAdapte
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EpisodeItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = layoutInflater.from(context).inflate(R.layout.item_episcode, parent, false);
-        return new MyViewHolder(view);
+        return new EpisodeItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EpisodeItemViewHolder holder, int position) {
         final ItemEpisode current = ary.get(position);
-        Picasso.get().load(current.getEpisodePoster()).placeholder(R.drawable.place_holder_channel).into(holder.img);
-        holder.ename.setText(current.getEpisodeTitle());
-        ItemMovie itemMovie = new ItemMovie();
-        itemMovie.setMovieTitle(current.getEpisodeTitle());
-        itemMovie.setMovieSDLink(current.getGetEpisodeSDLink());
-        itemMovie.setMovieHDLink(current.getEpisodeHDLink());
-
-        holder.btn_play.setOnClickListener(view -> {
-            ChooseSeriesWatch chooseDialog = new ChooseSeriesWatch(context, activity, false, itemMovie);
-
-        });
-        holder.btn_download.setOnClickListener(view -> {
-            ChooseSeriesDialog chooseDialog = new ChooseSeriesDialog(context, activity, true, itemMovie);
-        });
-
-
+        holder.bindData(current);
     }//onBindViewHolder
 
     @Override
@@ -68,18 +46,6 @@ public class EpiscodeListAdapter extends RecyclerView.Adapter<EpiscodeListAdapte
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView img;
-        TextView ename;
-        LinearLayout btn_play, btn_download;
 
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            img = itemView.findViewById(R.id.img_poster);
-            btn_play = itemView.findViewById(R.id.btn_ll_play);
-            btn_download = itemView.findViewById(R.id.btn_ll_download);
-            ename = itemView.findViewById(R.id.e_name);
-        }
-    }//MyViewHolder
 
 }//end

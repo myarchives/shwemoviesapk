@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.widget.Toast;
 
 import com.htetznaing.xgetter.Model.XModel;
+import com.shwe.item.ItemEpisode;
 import com.shwe.item.ItemMovie;
 
 import java.io.File;
@@ -45,6 +46,45 @@ public class XDownloader {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
             Date now = new Date();
             String fileName = itemMovie.getMovieTitle() + "_" + filename + ".mp4";
+
+            if (!new File(mBaseFolderPath).exists()) {
+                new File(mBaseFolderPath).mkdir();
+            }
+            String mFilePath = "file://" + mBaseFolderPath + fileName;
+            Uri downloadUri = Uri.parse(xModel.getUrl());
+            mRequest = new DownloadManager.Request(downloadUri);
+            mRequest.setDestinationUri(Uri.parse(mFilePath));
+
+            //If google drive you need to set cookie
+            if (xModel.getCookie() != null) {
+                mRequest.addRequestHeader("cookie", xModel.getCookie());
+            }
+
+            mRequest.setMimeType("video/*");
+            mRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            mDownloadedFileID = mDownloadManager.enqueue(mRequest);
+            IntentFilter downloaded = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+            activity.registerReceiver(downloadCompletedReceiver, downloaded);
+            Toast.makeText(activity, "Starting Download : " + fileName, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            try {
+                intent.setDataAndType(Uri.parse(URLDecoder.decode(xModel.getUrl(), "UTF-8")), "video/mp4");
+                activity.startActivity(Intent.createChooser(intent, "Download with..."));
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    public void download(XModel xModel, String filename, ItemEpisode itemEpisode) {
+        try {
+            mBaseFolderPath = mBaseFolderPath = Environment.getExternalStorageDirectory() + "/" + filename + "/";
+            ;
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.ENGLISH);
+            Date now = new Date();
+            String fileName = itemEpisode.getEpisodeTitle() + "_" + filename + ".mp4";
 
             if (!new File(mBaseFolderPath).exists()) {
                 new File(mBaseFolderPath).mkdir();
