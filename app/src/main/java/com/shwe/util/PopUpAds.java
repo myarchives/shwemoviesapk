@@ -91,7 +91,7 @@ public class PopUpAds {
             if (Constant.AD_COUNT == Constant.AD_COUNT_SHOW) {
                 final String TAG = PopUpAds.class.getSimpleName();
                 Constant.AD_COUNT = 0;
-                final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, Constant.adPlacementId);
+                final com.facebook.ads.InterstitialAd interstitialAd = new com.facebook.ads.InterstitialAd(context, Constant.adFBInterstitialId);
 
                 // Set listeners for the Interstitial Ad
                 interstitialAd.setAdListener(new InterstitialAdListener() {

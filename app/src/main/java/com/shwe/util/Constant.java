@@ -117,7 +117,7 @@ public class Constant implements Serializable {
 
     public static boolean isBanner = false, isInterstitial = false ,isFaceBookBanner = false, isFaceBookInterstitial = false;
     public static int statusBannerAds = 0 ,statusInterstitialAds = 0;
-    public static String adMobBannerId, adMobInterstitialId, adMobPublisherId, adPlacementId;
+    public static String adMobBannerId, adMobInterstitialId, adMobPublisherId,adFBInterstitialId, adFBBannerId ;
 
 
 }

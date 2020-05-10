@@ -22,7 +22,7 @@ public class BannerAds {
     }
     public static void ShowFacebookBannerAds(Context context, LinearLayout mAdViewLayout) {
         if (Constant.isFaceBookBanner) {
-            com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(context, "IMG_16_9_APP_INSTALL#"+Constant.adPlacementId, com.facebook.ads.AdSize.BANNER_HEIGHT_50);
+            com.facebook.ads.AdView mAdView = new com.facebook.ads.AdView(context, "IMG_16_9_APP_INSTALL#"+Constant.adFBBannerId, com.facebook.ads.AdSize.BANNER_HEIGHT_50);
             // Add the ad view to your activity layout
             mAdViewLayout.addView(mAdView);
             mAdView.loadAd();
