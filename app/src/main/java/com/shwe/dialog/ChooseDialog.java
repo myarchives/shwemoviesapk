@@ -179,16 +179,12 @@ public class ChooseDialog extends BaseDialog {
                     }
                     letDownload(hd_sd_status);
                     progressDialog.dismiss();
-                    doneDonwload(null);
                 }
             });
 
             xDownloader = new XDownloader(activity);
-            xDownloader.OnDownloadFinishedListerner(new XDownloader.OnDownloadFinished() {
-                @Override
-                public void onCompleted(String path) {
+            xDownloader.OnDownloadFinishedListerner(path -> {
 
-                }
             });
         } else {
             showToast(context.getResources().getString(R.string.conne_msg1));

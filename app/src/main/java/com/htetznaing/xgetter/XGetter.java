@@ -435,7 +435,9 @@ public class XGetter {
                             Log.i("Xmodels onResponse", "Xmodels onResponse: " + response.toString());
                             onComplete.onTaskCompleted(sortMe(xModels), true);
                             cookie = null;
-                        } else onComplete.onError();
+                        } else {
+                            onComplete.onError();
+                        }
                     }
 
                     @Override

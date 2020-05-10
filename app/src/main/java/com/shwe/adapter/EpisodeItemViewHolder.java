@@ -2,6 +2,7 @@ package com.shwe.adapter;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.htetznaing.xgetter.Model.XModel;
 import com.htetznaing.xgetter.XGetter;
+import com.shwe.dialog.ChooseSeriesDownload;
 import com.shwe.dialog.ChooseSeriesWatch;
 import com.shwe.item.ItemEpisode;
 import com.shwe.movies.R;
@@ -41,15 +43,17 @@ public class EpisodeItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bindData(ItemEpisode itemEpisode) {
         this.itemEpisode = itemEpisode;
+        Log.i("itemEpisode", "itemEpisode " + itemEpisode);
         Picasso.get().load(itemEpisode.getEpisodePoster()).placeholder(R.drawable.place_holder_channel).into(imageView);
         textView.setText(itemEpisode.getEpisodeTitle());
         btnPlay.setOnClickListener(view -> {
             ChooseSeriesWatch chooseDialog = new ChooseSeriesWatch(itemView.getContext(), (Activity) itemView.getContext(), itemEpisode);
-            chooseDialog.onCreate();
+            chooseDialog.show();
 
         });
         btnDownload.setOnClickListener(view -> {
-//            ChooseSeriesDialog chooseDialog = new ChooseSeriesDialog(context, activity, true, itemMovie);
+            ChooseSeriesDownload chooseSeriesDownload = new ChooseSeriesDownload(itemView.getContext(), (Activity) itemView.getContext(), itemEpisode);
+            chooseSeriesDownload.show();
         });
     }
 }

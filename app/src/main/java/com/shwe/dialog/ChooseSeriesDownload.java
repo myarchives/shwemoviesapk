@@ -1,15 +1,25 @@
 package com.shwe.dialog;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.htetznaing.xgetter.Model.XModel;
@@ -19,7 +29,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.shwe.item.ItemEpisode;
 import com.shwe.movies.R;
-import com.shwe.movies.SimpleVideoPlayer;
 import com.shwe.util.API;
 import com.shwe.util.Constant;
 import com.shwe.util.NetworkUtils;
@@ -44,7 +53,7 @@ import es.dmoral.toasty.Toasty;
 import static com.shwe.util.NetworkUtils.calculateFileSize;
 
 
-public class ChooseSeriesWatch {
+public class ChooseSeriesDownload {
     int count = 0;
     private XGetter xGetter;
     private String die_url = "";
@@ -54,15 +63,14 @@ public class ChooseSeriesWatch {
     private Activity activity;
     private ItemEpisode itemEpisode;
     private LinkedList<String> videoLinks;
+    private XModel current_Xmodel;
 
-    public ChooseSeriesWatch(Context context, Activity activity, ItemEpisode itemEpisode) {
+    public ChooseSeriesDownload(Context context, Activity activity, ItemEpisode itemEpisode) {
         videoLinks = new LinkedList<>();
         this.context = context;
         this.activity = activity;
         this.itemEpisode = itemEpisode;
-
-        videoLinks.addAll(itemEpisode.getEpisodeHDLink());
-        Log.i("videolinks", "videolinks " + videoLinks + itemEpisode);
+        videoLinks.addAll(this.itemEpisode.getEpisodeHDLink());
         Collections.shuffle(videoLinks);
     }
 
@@ -134,23 +142,6 @@ public class ChooseSeriesWatch {
         }
     }
 
-    private void multipleQualityDialog(ArrayList<XModel> model) throws ExecutionException, InterruptedException {
-        CharSequence[] name = new CharSequence[model.size()];
-        List<String> fileSizes = new GetFileSizeAsync().execute(model).get();
-
-        for (int i = 0; i < model.size(); i++) {
-            name[i] = model.get(i).getQuality() + "  (" + fileSizes.get(i) + ")";
-
-        }
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle("Quality!")
-                .setItems(name, (dialog, which) -> done(model.get(which)))
-                .setPositiveButton("OK", null);
-        builder.show();
-    }
-
     public boolean checkInternet() {
         boolean what;
         if (NetworkUtils.isConnected(context)) {
@@ -167,19 +158,50 @@ public class ChooseSeriesWatch {
         if (xModel != null) {
             url = xModel.getUrl();
         }
-        Intent intent = new Intent(context, SimpleVideoPlayer.class);
-        intent.putExtra("url", xModel.getUrl());
-        //If google drive you need to put cookie
-        if (xModel.getCookie() != null) {
-            intent.putExtra("cookie", xModel.getCookie());
+        downloadDialog(xModel);
+    }
+
+    private void downloadDialog(XModel xModel) {
+        MaterialStyledDialog.Builder builder = new MaterialStyledDialog.Builder(context);
+        builder.setTitle("Notice!")
+                .setDescription("Choose your downloader")
+                .setStyle(Style.HEADER_WITH_ICON)
+                .setIcon(R.drawable.right)
+                .withDialogAnimation(true)
+                .setPositiveText("Built in downloader")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        downloadFile(xModel);
+                    }
+                })
+                .setNegativeText("ADM")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        downloadWithADM(xModel);
+                    }
+                });
+        MaterialStyledDialog dialog = builder.build();
+        dialog.show();
+    }
+
+    private void multipleQualityDialog(ArrayList<XModel> model) throws ExecutionException, InterruptedException {
+        CharSequence[] name = new CharSequence[model.size()];
+        List<String> fileSizes = new GetFileSizeAsync().execute(model).get();
+
+        for (int i = 0; i < model.size(); i++) {
+            name[i] = model.get(i).getQuality() + "  (" + fileSizes.get(i) + ")";
+
         }
-        activity.startActivity(intent);
-    }
 
-    public void showToast(String msg) {
-        Toasty.info(activity, msg, Toast.LENGTH_SHORT, true).show();
-    }
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                .setTitle("Quality!")
+                .setItems(name, (dialog, which) -> done(model.get(which)))
+                .setPositiveButton("OK", null);
+        builder.show();
+    }
 
     private void sentReport(String report) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -218,6 +240,78 @@ public class ChooseSeriesWatch {
             }
 
         });
+    }
+
+    private void downloadFile(XModel xModel) {
+        current_Xmodel = xModel;
+        if (checkPermissions()) {
+            xDownloader.download(current_Xmodel, context.getResources().getString(R.string.save_folder_name), itemEpisode);
+        }
+    }
+
+    private boolean checkPermissions() {
+        int storage = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        final List<String> listPermissionsNeeded = new ArrayList<>();
+        if (storage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(activity, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 1000);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean appInstalledOrNot(String str) {
+        try {
+            context.getPackageManager().getPackageInfo(str, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    public void downloadWithADM(XModel xModel) {
+        boolean appInstalledOrNot = appInstalledOrNot("com.dv.adm");
+        boolean appInstalledOrNot2 = appInstalledOrNot("com.dv.adm.pay");
+        boolean appInstalledOrNot3 = appInstalledOrNot("com.dv.adm.old");
+        String str3;
+        if (appInstalledOrNot || appInstalledOrNot2 || appInstalledOrNot3) {
+            if (appInstalledOrNot2) {
+                str3 = "com.dv.adm.pay";
+            } else if (appInstalledOrNot) {
+                str3 = "com.dv.adm";
+            } else {
+                str3 = "com.dv.adm.old";
+            }
+
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse(xModel.getUrl()), "application/x-mpegURL");
+                intent.setPackage(str3);
+                if (xModel.getCookie() != null) {
+                    intent.putExtra("Cookie", xModel.getCookie());
+                    intent.putExtra("Cookies", xModel.getCookie());
+                    intent.putExtra("cookie", xModel.getCookie());
+                    intent.putExtra("cookies", xModel.getCookie());
+                }
+
+                context.startActivity(intent);
+                return;
+            } catch (Exception e) {
+                return;
+            }
+        }
+        str3 = "com.dv.adm";
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + str3)));
+        } catch (ActivityNotFoundException e2) {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + str3)));
+        }
+    }
+
+    public void showToast(String msg) {
+        Toasty.info(activity, msg, Toast.LENGTH_SHORT, true).show();
     }
 
     private class GetFileSizeAsync extends AsyncTask<List<XModel>, String, List<String>> {

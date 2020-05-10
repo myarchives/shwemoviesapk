@@ -1,9 +1,9 @@
 package com.shwe.movies;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +31,9 @@ import cz.msebera.android.httpclient.Header;
 public class EpiscodeList extends BaseActivity {
     RecyclerView recyclerView;
     ArrayList<ItemEpisode> mListItemEpisode;
-    ArrayList<String> hdlinks, sdlinks;
+
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +41,10 @@ public class EpiscodeList extends BaseActivity {
         setContentView(R.layout.activity_episcode_list);
         recyclerView = findViewById(R.id.episcode_list_rv);
         ImageView back = findViewById(R.id.back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        back.setOnClickListener(view -> finish());
         mListItemEpisode = new ArrayList<>();
-        sdlinks = new ArrayList<>();
-        hdlinks = new ArrayList<>();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.show();
         String season_id = getIntent().getStringExtra("SEASON_ID");
         String series_id = getIntent().getStringExtra("SERIES_ID");
         String label = getIntent().getStringExtra("LABEL");
@@ -80,11 +77,14 @@ public class EpiscodeList extends BaseActivity {
                 //progress gone
 
                 String result = new String(responseBody);
+                Log.i("onSuccessresult", "onSuccessresult" + responseBody.toString());
                 try {
                     JSONObject mainJson = new JSONObject(result);
                     JSONArray jsonArray = mainJson.getJSONArray(Constant.ARRAY_NAME);
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
+                            ArrayList<String> hdlinks = new ArrayList<>();
+                            ArrayList<String> sdlinks = new ArrayList<>();
                             JSONObject objJson = jsonArray.getJSONObject(i);
                             ItemEpisode itemEpisode = new ItemEpisode();
                             JSONArray jsonArrayHDLinks = objJson.getJSONArray(Constant.MOVIE_HDLINK);
@@ -109,12 +109,15 @@ public class EpiscodeList extends BaseActivity {
                             itemEpisode.setEpisodeUrl(objJson.getString(Constant.EPISODE_URL));
                             itemEpisode.setEpisodeType(objJson.getString(Constant.EPISODE_TYPE));
                             itemEpisode.setPlaying(false);
+                            Log.i("ItemEpisode", "ItemEpisode" + itemEpisode);
+                            Log.i("mListItemEpisode", "mListItemEpisode" + mListItemEpisode);
                             mListItemEpisode.add(itemEpisode);
                         }
                         Log.d("mListItemEpisode", mListItemEpisode.toString());
                         EpiscodeListAdapter episcodeListAdapter = new EpiscodeListAdapter(EpiscodeList.this, EpiscodeList.this, mListItemEpisode);
                         recyclerView.setAdapter(episcodeListAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        progressDialog.dismiss();
 
                     } else {
 
