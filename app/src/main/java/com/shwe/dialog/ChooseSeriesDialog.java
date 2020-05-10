@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,25 +43,34 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cz.msebera.android.httpclient.Header;
 import es.dmoral.toasty.Toasty;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+
+import static com.shwe.util.NetworkUtils.calculateFileSize;
 
 public class ChooseSeriesDialog {
     TextView title, btn_hd, btn_sd;
     Boolean condition;//true for play and false for download
 
-
     XGetter xGetter, xGetterDownload;
     String die_url = "HELLO";
-    ProgressDialog progressDialog;
+    static ProgressDialog progressDialog;
     XDownloader xDownloader;
     boolean hd_sd_status;
     XModel current_Xmodel = null;
@@ -109,17 +119,22 @@ public class ChooseSeriesDialog {
 
                 @Override
                 public void onTaskCompleted(ArrayList<XModel> vidURL, boolean multiple_quality) {
-                    progressDialog.dismiss();
+                    //progressDialog.dismiss();
                     if (multiple_quality) {
                         if (vidURL != null) {
                             //This video you can choose qualities
                             for (XModel model : vidURL) {
                                 //If google drive video you need to set cookie for play or download
+
                             }
 
                             try {
                                 multipleQualityDialog(vidURL);
                             } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            } catch (ExecutionException e) {
                                 e.printStackTrace();
                             }
                         } else done(null);
@@ -257,43 +272,53 @@ public class ChooseSeriesDialog {
         dialog.show();
     }
 
+    private static class GetFileSizeAsync extends AsyncTask<List<XModel>, String, List<String>>
 
-    public long getRemoteFileSize(String url, String cookie) {
-        OkHttpClient client = new OkHttpClient();
-        // get only the head not the whole file
-        Request request = new Request.Builder()
-                .addHeader("Cookie", cookie)
-                .url(url).build();
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-            // OKHTTP put the length from the header here even though the body is empty
-            long size = response.body().contentLength();
-            response.close();
-            return size;
-        } catch (IOException e) {
-            if (response != null) {
-                response.close();
-
+    {
+        @Override
+        protected List<String> doInBackground(List<XModel>... xModels) {
+            List<String> filesizes=new ArrayList<>();
+            for(XModel x:xModels[0]){
+                if (x.getUrl()!=null) {
+                    try {
+                        URLConnection connection = new URL(x.getUrl()).openConnection();
+                        if (x.getCookie() != null) {
+                            connection.setRequestProperty("Cookie", x.getCookie());
+                        }
+                        connection.connect();
+                         filesizes.add(calculateFileSize(connection.getContentLength()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            e.printStackTrace();
-        }
-        return 0;
+            return filesizes;
 
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(List<String> s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+        }
     }
 
 
-    private void multipleQualityDialog(ArrayList<XModel> model) throws IOException {
+    private void multipleQualityDialog(ArrayList<XModel> model) throws IOException, ExecutionException, InterruptedException {
         CharSequence[] name = new CharSequence[model.size()];
+        List<String> fileSizes=new GetFileSizeAsync().execute(model).get();
 
         for (int i = 0; i < model.size(); i++) {
-            name[i] = model.get(i).getQuality();
-//            name[i] = model.get(i).getQuality() + " " + getRemoteFileSize(model.get(i).getUrl(),model.get(i).getCookie());
+            name[i] = model.get(i).getQuality()+"  ("+fileSizes.get(i)+")";
         }
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle("Quality!")
+                .setTitle("Choose Quality!")
                 .setItems(name, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -302,6 +327,7 @@ public class ChooseSeriesDialog {
                 })
                 .setPositiveButton("OK", null);
         builder.show();
+
     }
 
 

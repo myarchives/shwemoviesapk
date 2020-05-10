@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.RequiresPermission;
 
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -159,6 +160,14 @@ public class NetworkUtils {
         if (matcher.find())
             return matcher.group(1);
         return null;
+    }
+
+
+    public static String calculateFileSize(long size) {
+        if (size <= 0) return "0";
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
     public static int getScreenWidth(Context context) {
